@@ -1,0 +1,54 @@
+services:
+  app:
+    build: ./app
+    container_name: vk-fun-app
+    volumes:
+      - ./app:${WORK_DIR}
+      - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+    working_dir: ${WORK_DIR}
+    depends_on:
+      - mysql
+    networks:
+      - vk-fun-network
+    mem_limit: 600M
+
+  nginx:
+    image: nginx:1.29.4
+    container_name: vk-fun-nginx
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./app:${WORK_DIR}
+    ports:
+      - "${NGINX_PORT_CR}:443"
+    depends_on:
+      - app
+      - mysql
+    networks:
+      - vk-fun-network
+    mem_limit: 300M
+
+  mysql:
+    image: mysql:8.4
+    container_name: vk-fun-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - vk-fun-mysql_data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    networks:
+      - vk-fun-network
+    mem_limit: 600M
+
+volumes:
+  vk-fun-mysql_data:
+
+networks:
+  vk-fun-network:
+    driver: bridge
