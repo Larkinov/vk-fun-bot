@@ -6,9 +6,11 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 RUN install-php-extensions amqp
 
 RUN apt-get update && apt-get install -y \
+    libicu-dev \
     unzip \
     zip \
     libfreetype6-dev \
+    && docker-php-ext-install intl \
     && docker-php-ext-install pdo pdo_mysql \
     && docker-php-ext-install -j$(nproc) gd
 
