@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Fabric;
+namespace App\Factory;
 
 use App\ValueObject\VK\MessageVK;
 use Psr\Log\LoggerInterface;
 
-class FabricMessageVK
+class FactoryMessageVK
 {
     public function __construct(private LoggerInterface $logger) {}
 

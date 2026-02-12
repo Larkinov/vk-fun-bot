@@ -2,6 +2,7 @@
 
 namespace App\ValueObject\Command;
 
+use App\Gateway\VkGateway;
 use App\ValueObject\VK\MessageVK;
 use Psr\Log\LoggerInterface;
 
@@ -9,48 +10,50 @@ abstract class AbstractCommand
 {
     public const MAX_LENGTH = 100;
 
-    private int $id;
-    private int $peerId;
-    private int $fromId;
-    private string $text;
-    private int $date;
-    private int $conversationMessageId;
+    protected int $id;
+    protected int $peerId;
+    protected int $fromId;
+    protected string $text;
+    protected int $date;
+    protected int $conversationMessageId;
 
-    public function __construct(private LoggerInterface $logger, MessageVK $message)
+    public function __construct(protected LoggerInterface $logger, protected VkGateway $vkGateway, MessageVK $message, )
     {
-        // $this->id = $object['message']->id;
-        // $this->peerId = $object['message']->peer_id;
-        // $this->fromId = $object['message']->from_id;
-        // $this->text = $object['message']->text;
-        // $this->date = $object['message']->date;
-        // $this->conversationMessageId = $object['message']->conversation_message_id;
+        $this->id = $message->getId();
+        $this->peerId = $message->getPeerId();
+        $this->fromId = $message->getFromId();
+        $this->text = $message->getText();
+        $this->date = $message->getDate();
+        $this->conversationMessageId = $message->getConversationMessageId();
 
-        $this->logger->info('create command', ['id' => $message->getId(), 'peer_id' => $message->getId(), 'text' => $message->getId(), 'from_id' => $message->getId(), 'conversation message id' => $message->getId()]);
+        $this->logger->info('create command', ['id' => $message->getId(), 'peer_id' => $message->getPeerId(), 'text' => $message->getText(), 'from_id' => $message->getFromId(), 'conversation message id' => $message->getConversationMessageId()]);
     }
 
-    // public function getId(): int
-    // {
-    //     return $this->id;
-    // }
-    // public function getPeerId(): int
-    // {
-    //     return $this->peerId;
-    // }
-    // public function getFromId(): int
-    // {
-    //     return $this->fromId;
-    // }
-    // public function getDate(): int
-    // {
-    //     return $this->date;
-    // }
-    // public function getConversationMessageId(): int
-    // {
-    //     return $this->conversationMessageId;
-    // }
+    abstract public function run(): void;
 
-    // public function getText(): string
-    // {
-    //     return $this->text;
-    // }
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getPeerId(): int
+    {
+        return $this->peerId;
+    }
+    public function getFromId(): int
+    {
+        return $this->fromId;
+    }
+    public function getDate(): int
+    {
+        return $this->date;
+    }
+    public function getConversationMessageId(): int
+    {
+        return $this->conversationMessageId;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
 }

@@ -8,13 +8,11 @@ use Psr\Log\LoggerInterface;
 class StartCommand extends AbstractCommand
 {
 
-    private int $id;
-    private int $peerId;
-    private int $fromId;
-    private string $text;
-    private int $date;
-    private int $conversationMessageId;
-
+    public function run(): void
+    {
+        $userName = $this->vkGateway->getUser($this->getFromId());
+        $this->vkGateway->sendMessage('lalala - ' . $userName, $this->fromId);
+    }
     // public function __construct(private LoggerInterface $logger, MessageVK $message)
     // {
     //     // $this->id = $object['message']->id;

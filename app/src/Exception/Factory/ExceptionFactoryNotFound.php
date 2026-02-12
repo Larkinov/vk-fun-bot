@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Exception;
+namespace App\Exception\Factory;
 
 use Exception;
 
-class ExceptionFabricNotFound extends Exception
+class ExceptionFactoryNotFound extends Exception
 {
     private const MESSAGE = "Not found create object";
 
