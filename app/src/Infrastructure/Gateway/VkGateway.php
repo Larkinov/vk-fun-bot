@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Gateway;
+namespace App\Infrastructure\Gateway;
 
-use App\Exception\Configuration\ExceptionNullParamConfiguration;
-use App\Exception\Gateway\ExceptionVkGateway;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Infrastructure\Exception\ExceptionNullParamConfiguration;
+use App\Infrastructure\Exception\ExceptionVkGateway;
 
 class VkGateway
 {

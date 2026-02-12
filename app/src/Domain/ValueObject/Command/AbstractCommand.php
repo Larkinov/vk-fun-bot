@@ -1,9 +1,9 @@
 <?php
 
-namespace App\ValueObject\Command;
+namespace App\Domain\ValueObject\Command;
 
-use App\Gateway\VkGateway;
-use App\ValueObject\VK\MessageVK;
+use App\Domain\ValueObject\VK\MessageVK;
+use App\Infrastructure\Gateway\VkGateway;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractCommand

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ValueObject\Command;
+namespace App\Domain\ValueObject\Command;
 
 use App\ValueObject\VK\MessageVK;
 use Psr\Log\LoggerInterface;
@@ -11,7 +11,7 @@ class StartCommand extends AbstractCommand
     public function run(): void
     {
         $userName = $this->vkGateway->getUser($this->getFromId());
-        $this->vkGateway->sendMessage('lalala - ' . $userName, $this->fromId);
+        $this->vkGateway->sendMessage('lalalalala - ' . $userName, $this->fromId);
     }
     // public function __construct(private LoggerInterface $logger, MessageVK $message)
     // {

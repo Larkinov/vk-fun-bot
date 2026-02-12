@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception\Gateway;
+namespace App\Infrastructure\Exception;
 
 use Exception;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\ValueObject\VK;
+namespace App\Domain\ValueObject\VK;
 
-use App\ValueObject\Command\AbstractCommand;
+use App\Domain\ValueObject\Command\AbstractCommand;
 use Psr\Log\LoggerInterface;
 
 class MessageVK

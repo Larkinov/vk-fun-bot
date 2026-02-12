@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Factory;
+namespace App\Application\Factory;
 
-use App\ValueObject\VK\MessageVK;
+use App\Domain\ValueObject\VK\MessageVK;
 use Psr\Log\LoggerInterface;
 
 class FactoryMessageVK

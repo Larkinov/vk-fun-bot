@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Factory;
+namespace App\Application\Factory;
 
-use App\Exception\Factory\ExceptionFactoryNotFound;
-use App\Gateway\VkGateway;
-use App\ValueObject\Command\AbstractCommand;
-use App\ValueObject\VK\MessageVK;
+use App\Application\Exceptions\ExceptionFactoryNotFound;
+use App\Domain\ValueObject\Command\AbstractCommand;
+use App\Domain\ValueObject\VK\MessageVK;
+use App\Infrastructure\Gateway\VkGateway;
 use Psr\Log\LoggerInterface;
 
 class FactoryCommand
@@ -17,7 +17,7 @@ class FactoryCommand
 
         $command = ucfirst(substr($message->getText(), 1));
 
-        $command = "App\\ValueObject\\Command\\$command" . "Command";
+        $command = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
 
         if (class_exists($command))
             return new $command($this->logger, $this->vkGateway, $message);
