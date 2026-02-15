@@ -2,8 +2,10 @@
 
 namespace App\Domain\ValueObject\Command;
 
+use App\Application\Factory\FactoryConversation;
 use App\Domain\ValueObject\VK\MessageVK;
 use App\Infrastructure\Gateway\VkGateway;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractCommand
@@ -17,8 +19,13 @@ abstract class AbstractCommand
     protected int $date;
     protected int $conversationMessageId;
 
-    public function __construct(protected LoggerInterface $logger, protected VkGateway $vkGateway, MessageVK $message, )
-    {
+    public function __construct(
+        protected LoggerInterface $logger,
+        protected EntityManagerInterface $entityManager,
+        protected VkGateway $vkGateway,
+        protected FactoryConversation $factoryConversation,
+        MessageVK $message,
+    ) {
         $this->id = $message->getId();
         $this->peerId = $message->getPeerId();
         $this->fromId = $message->getFromId();

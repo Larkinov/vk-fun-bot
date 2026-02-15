@@ -2,55 +2,30 @@
 
 namespace App\Domain\ValueObject\Command;
 
+use App\Application\Dto\CreateConversationDto;
+use App\Domain\Entity\Conversation;
+
 class StartCommand extends AbstractCommand
 {
 
     public function run(): void
     {
         $userName = $this->vkGateway->getUser($this->getFromId());
-        $this->vkGateway->sendMessage('lalalalala - ' . $userName, $this->fromId);
+        // $this->vkGateway->sendMessage('lalalalala - ' . $userName, $this->fromId);
 
-        $data = $this->vkGateway->getConversationMembers($this->peerId);
+        $response = $this->vkGateway->getConversationMembers($this->peerId);
 
-        $this->logger->info('members',['data'=>$data]);
+        $this->logger->info('members', ['111' => $response]);
+        $conversationDto = new CreateConversationDto($this->peerId, $response);
+
+        $conversation = $this->entityManager->getRepository(Conversation::class)->findOneBy(['peerId'=>$this->peerId]);
+
+        if (is_null($conversation))
+            $conversation = $this->factoryConversation->getInstance($conversationDto);
+
+        $this->logger->info('get conversation', ['conv' => $conversation]);
+        // $this->conversationRepository->get
+
+
     }
-    // public function __construct(private LoggerInterface $logger, MessageVK $message)
-    // {
-    //     // $this->id = $object['message']->id;
-    //     // $this->peerId = $object['message']->peer_id;
-    //     // $this->fromId = $object['message']->from_id;
-    //     // $this->text = $object['message']->text;
-    //     // $this->date = $object['message']->date;
-    //     // $this->conversationMessageId = $object['message']->conversation_message_id;
-
-    //     $this->logger->info('create command', ['id' => $this->id, 'peer_id' => $this->peerId, 'text' => $this->text, 'from_id' => $this->fromId, 'conversation message id' => $this->conversationMessageId]);
-    // }
-
-
-
-    // public function getId(): int
-    // {
-    //     return $this->id;
-    // }
-    // public function getPeerId(): int
-    // {
-    //     return $this->peerId;
-    // }
-    // public function getFromId(): int
-    // {
-    //     return $this->fromId;
-    // }
-    // public function getDate(): int
-    // {
-    //     return $this->date;
-    // }
-    // public function getConversationMessageId(): int
-    // {
-    //     return $this->conversationMessageId;
-    // }
-
-    // public function getText(): string
-    // {
-    //     return $this->text;
-    // }
 }
