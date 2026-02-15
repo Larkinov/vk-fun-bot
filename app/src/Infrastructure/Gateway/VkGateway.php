@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Gateway;
 
-use Psr\Log\LoggerInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Infrastructure\Exceptions\ExceptionNullParamConfiguration;
 use App\Infrastructure\Exceptions\ExceptionVkGateway;
+use Psr\Log\LoggerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class VkGateway
 {
