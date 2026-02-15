@@ -2,9 +2,6 @@
 
 namespace App\Domain\ValueObject\Command;
 
-use App\ValueObject\VK\MessageVK;
-use Psr\Log\LoggerInterface;
-
 class StartCommand extends AbstractCommand
 {
 
@@ -12,6 +9,10 @@ class StartCommand extends AbstractCommand
     {
         $userName = $this->vkGateway->getUser($this->getFromId());
         $this->vkGateway->sendMessage('lalalalala - ' . $userName, $this->fromId);
+
+        $data = $this->vkGateway->getConversationMembers($this->peerId);
+
+        $this->logger->info('members',['data'=>$data]);
     }
     // public function __construct(private LoggerInterface $logger, MessageVK $message)
     // {

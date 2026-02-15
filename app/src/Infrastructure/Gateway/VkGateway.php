@@ -4,8 +4,8 @@ namespace App\Infrastructure\Gateway;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Infrastructure\Exception\ExceptionNullParamConfiguration;
-use App\Infrastructure\Exception\ExceptionVkGateway;
+use App\Infrastructure\Exceptions\ExceptionNullParamConfiguration;
+use App\Infrastructure\Exceptions\ExceptionVkGateway;
 
 class VkGateway
 {
@@ -30,14 +30,14 @@ class VkGateway
     {
         $response = $this->client->request(
             'GET',
-            self::URL . '/message.send',
+            self::URL . '/messages.send',
             [
                 'query' => [
                     'message' => $message,
                     'peer_id' => $peerId,
                     'access_token' => $this->token,
                     'v' => $this->version,
-                    'random_id' => '0'
+                    'random_id' => microtime(true) * 10000,
                 ]
             ]
         );
@@ -48,6 +48,7 @@ class VkGateway
             return;
 
         $this->logger->error('failed send message', ['content' => $response->toArray(false), 'status code' => $statusCode]);
+        throw new ExceptionVkGateway('failed send message');
     }
 
     public function getUser(int $userId)
@@ -75,5 +76,28 @@ class VkGateway
         $this->logger->info('get users', ['response' => $response->toArray(false)]);
 
         return $response->toArray(false)['response'][0]['first_name'];
+    }
+
+    public function getConversationMembers(int $peerId): array
+    {
+        $response = $this->client->request(
+            'GET',
+            self::URL . '/messages.getConversationMembers',
+            [
+                'query' => [
+                    'peer_id' => $peerId,
+                    'access_token' => $this->token,
+                    'v' => $this->version,
+                ]
+            ]
+        );
+
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 200)
+            return $response->toArray(false);
+
+        $this->logger->error('failed get conversation members', ['content' => $response->toArray(false), 'status code' => $statusCode]);
+        throw new ExceptionVkGateway('failed get conversation members');
     }
 }
