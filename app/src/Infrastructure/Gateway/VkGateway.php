@@ -2,12 +2,13 @@
 
 namespace App\Infrastructure\Gateway;
 
+use App\Domain\Gateway\MessageGatewayInterface;
 use App\Infrastructure\Exceptions\ExceptionNullParamConfiguration;
 use App\Infrastructure\Exceptions\ExceptionVkGateway;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class VkGateway
+class VkGateway implements MessageGatewayInterface
 {
 
     private const URL = "https://api.vk.ru/method";
@@ -51,7 +52,7 @@ class VkGateway
         throw new ExceptionVkGateway('failed send message');
     }
 
-    public function getUser(int $userId)
+    public function getUser(int $userId):array
     {
 
         $response = $this->client->request(
@@ -75,7 +76,7 @@ class VkGateway
 
         $this->logger->info('get users', ['response' => $response->toArray(false)]);
 
-        return $response->toArray(false)['response'][0]['first_name'];
+        return $response->toArray(false)['response'][0];
     }
 
     public function getConversationMembers(int $peerId): array
