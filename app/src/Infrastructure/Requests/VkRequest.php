@@ -26,6 +26,6 @@ class VkRequest extends VKCallbackApiServerHandler
         if (!MessageVK::isCorrectCommand($this->logger, $messageVk->getText()))
             return;
 
-        $this->executeCommandUseCase->execute($messageVk);
+        ($this->executeCommandUseCase)($messageVk);
     }
 }

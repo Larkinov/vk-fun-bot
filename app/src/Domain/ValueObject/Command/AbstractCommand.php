@@ -3,6 +3,7 @@
 namespace App\Domain\ValueObject\Command;
 
 use App\Application\Factory\FactoryConversation;
+use App\Application\UseCase\SaveConversationUseCase;
 use App\Domain\ValueObject\VK\MessageVK;
 use App\Infrastructure\Gateway\VkGateway;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,8 @@ abstract class AbstractCommand
     public function __construct(
         protected LoggerInterface $logger,
         protected EntityManagerInterface $entityManager,
+        /** @var SaveConversationUseCase */
+        protected SaveConversationUseCase $saveConversationUseCase,
         protected VkGateway $vkGateway,
         protected FactoryConversation $factoryConversation,
         MessageVK $message,

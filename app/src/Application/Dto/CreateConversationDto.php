@@ -2,7 +2,7 @@
 
 namespace App\Application\Dto;
 
-use App\Infrastructure\Exceptions\ExceptionVkGateway;
+use App\Infrastructure\Exception\ExceptionVkGateway;
 
 class CreateConversationDto
 {

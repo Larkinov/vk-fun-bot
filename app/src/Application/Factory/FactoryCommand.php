@@ -3,6 +3,7 @@
 namespace App\Application\Factory;
 
 use App\Application\Exceptions\ExceptionFactoryNotFound;
+use App\Application\UseCase\SaveConversationUseCase;
 use App\Domain\ValueObject\Command\AbstractCommand;
 use App\Domain\ValueObject\VK\MessageVK;
 use App\Infrastructure\Gateway\VkGateway;
@@ -14,6 +15,7 @@ class FactoryCommand
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
+        protected SaveConversationUseCase $saveConversationUseCase,
         private VkGateway $vkGateway,
         private FactoryConversation $factoryConversation,
     ) {}
@@ -26,7 +28,7 @@ class FactoryCommand
         $command = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
 
         if (class_exists($command))
-            return new $command($this->logger, $this->entityManager, $this->vkGateway, $this->factoryConversation, $message);
+            return new $command($this->logger, $this->entityManager, $this->saveConversationUseCase, $this->vkGateway, $this->factoryConversation, $message);
 
         throw new ExceptionFactoryNotFound('command', $command);
     }

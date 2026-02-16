@@ -4,18 +4,22 @@ namespace App\Application\UseCase;
 
 use App\Application\Factory\FactoryCommand;
 use App\Domain\ValueObject\VK\MessageVK;
-use Generator\Skeleton\skeleton\base\src\VK\CallbackApi\VKCallbackApiServerHandler;
+use App\Infrastructure\Gateway\VkGateway;
 use Psr\Log\LoggerInterface;
 
-class ExecuteCommandUseCase extends VKCallbackApiServerHandler
+class ExecuteCommandUseCase
 {
+
+    private const MESSAGE_FAILED_COMMAND = '❗ Обнаружена ошибка! ID беседы ';
+    private const SERVICE_MESSAGE_FAILED_COMMAND = '🌧 Что-то пошло не так, мы уже работаем над этой проблемой..';
 
     public function __construct(
         private LoggerInterface $logger,
+        private VkGateway $vkGateway,
         private FactoryCommand $factoryCommand,
     ) {}
 
-    public function execute(MessageVK $messageVk): void
+    public function __invoke(MessageVK $messageVk): void
     {
         try {
             $command = $this->factoryCommand->getInstance($messageVk);
@@ -23,6 +27,9 @@ class ExecuteCommandUseCase extends VKCallbackApiServerHandler
             $command->run();
         } catch (\Throwable $th) {
             $this->logger->error('failed create new command', ['message' => $th->getMessage(), 'trace' => $th->getTrace()]);
+            $this->vkGateway->sendMessage(self::SERVICE_MESSAGE_FAILED_COMMAND, $messageVk->getPeerId());
+            if (isset($_ENV['USER_SERVICE_ID']))
+                $this->vkGateway->sendMessage(self::MESSAGE_FAILED_COMMAND . $messageVk->getPeerId() . ":\n\n" .  $th->getMessage(), $_ENV['USER_SERVICE_ID']);
         }
     }
 }
