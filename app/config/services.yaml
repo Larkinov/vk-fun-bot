@@ -23,6 +23,8 @@ services:
 
     App\Domain\Repository\ConversationRepositoryInterface:
         alias: App\Infrastructure\Repository\ConversationRepository
+    App\Domain\Repository\ProfileRepositoryInterface:
+        alias: App\Infrastructure\Repository\ProfileRepository
 
     App\Infrastructure\Repository\:
         resource: "../src/Infrastructure/Repository"

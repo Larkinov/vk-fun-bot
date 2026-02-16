@@ -3,7 +3,9 @@
 namespace App\Application\UseCase;
 
 use App\Application\Dto\CreateConversationDto;
+use App\Application\Exceptions\ExceptionNotFoundAdmin;
 use App\Application\Factory\FactoryConversation;
+use App\Application\Factory\FactoryProfile;
 use App\Domain\Entity\Conversation;
 use App\Infrastructure\Exceptions\ExceptionVkGateway;
 use App\Infrastructure\Gateway\VkGateway;
@@ -34,7 +36,7 @@ class SaveConversationUseCase
                 $conversation = $this->factoryConversation->getInstance($conversationDto);
 
             return $conversation;
-        } catch (ExceptionVkGateway $th) {
+        } catch (ExceptionVkGateway|ExceptionNotFoundAdmin $th) {
             $this->logger->error('failed save conversation', ['message' => $th->getMessage(), 'trace' => $th->getTrace()]);
             return null;
         }
