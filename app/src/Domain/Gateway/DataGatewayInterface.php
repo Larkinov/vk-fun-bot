@@ -2,7 +2,7 @@
 
 namespace App\Domain\Gateway;
 
-interface MessageGatewayInterface
+interface DataGatewayInterface
 {
     public function sendMessage(string $message, int $peerId): void;
 

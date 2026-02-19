@@ -3,7 +3,7 @@
 namespace App\Domain\ValueObject\Command;
 
 use App\Application\UseCase\SaveConversationUseCase;
-use App\Domain\Gateway\MessageGatewayInterface;
+use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ abstract class AbstractCommand
         protected EntityManagerInterface $entityManager,
         /** @var SaveConversationUseCase */
         protected SaveConversationUseCase $saveConversationUseCase,
-        protected MessageGatewayInterface $messageGateway,
+        protected DataGatewayInterface $dataGateway,
         MessageVK $message,
     ) {
         $this->id = $message->getId();

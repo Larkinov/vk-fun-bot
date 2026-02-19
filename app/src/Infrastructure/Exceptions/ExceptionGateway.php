@@ -4,7 +4,7 @@ namespace App\Infrastructure\Exceptions;
 
 use Exception;
 
-class ExceptionVkGateway extends Exception
+class ExceptionGateway extends Exception
 {
 
     public function __construct(string $message)

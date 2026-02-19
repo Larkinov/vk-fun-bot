@@ -2,13 +2,13 @@
 
 namespace App\Infrastructure\Gateway;
 
-use App\Domain\Gateway\MessageGatewayInterface;
+use App\Domain\Gateway\DataGatewayInterface;
 use App\Infrastructure\Exceptions\ExceptionNullParamConfiguration;
-use App\Infrastructure\Exceptions\ExceptionVkGateway;
+use App\Infrastructure\Exceptions\ExceptionGateway;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class VkGateway implements MessageGatewayInterface
+class VkGateway implements DataGatewayInterface
 {
 
     private const URL = "https://api.vk.ru/method";
@@ -49,10 +49,10 @@ class VkGateway implements MessageGatewayInterface
             return;
 
         $this->logger->error('failed send message', ['content' => $response->toArray(false), 'status code' => $statusCode]);
-        throw new ExceptionVkGateway('failed send message');
+        throw new ExceptionGateway('failed send message');
     }
 
-    public function getUser(int $userId):array
+    public function getUser(int $userId): array
     {
 
         $response = $this->client->request(
@@ -71,7 +71,7 @@ class VkGateway implements MessageGatewayInterface
 
         if ($statusCode !== 200) {
             $this->logger->error('failed get users', ['content' => $response->toArray(false), 'status code' => $statusCode]);
-            throw new ExceptionVkGateway('failed get users');
+            throw new ExceptionGateway('failed get users');
         }
 
         $this->logger->info('get users', ['response' => $response->toArray(false)]);
@@ -95,10 +95,12 @@ class VkGateway implements MessageGatewayInterface
 
         $statusCode = $response->getStatusCode();
 
-        if ($statusCode === 200)
+        if ($statusCode === 200) {
+            $this->logger->info('get conversation members', ['response' => $response->toArray(false)]);
             return $response->toArray(false);
+        }
 
         $this->logger->error('failed get conversation members', ['content' => $response->toArray(false), 'status code' => $statusCode]);
-        throw new ExceptionVkGateway('failed get conversation members');
+        throw new ExceptionGateway('failed get conversation members');
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Application\Factory;
 
-use App\Application\Dto\CreateProfileConversationDto;
-use App\Application\Exceptions\ExceptionNotFoundAdmin;
-use App\Domain\Entity\Conversation;
+use App\Application\Dto\CreateProfileDto;
+use App\Domain\Entity\Profile;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -12,19 +11,23 @@ class FactoryProfile
 {
     public function __construct(private LoggerInterface $logger, private EntityManagerInterface $entityManager) {}
 
-    // public function getInstanceFromConversation(CreateProfileConversationDto $dto): Conversation
-    // {
-    //     $this->logger->info('create profile from conversation', ['peer_id' => $dto->peerId]);
+    public function getInstance(CreateProfileDto $dto): Profile
+    {
+        $this->logger->info('create profile', ['peerId' => $dto->peerId, 'userId' => $dto->userId]);
 
-    //     // $conversation = new Conversation();
-    //     // $conversation->setPeerId($dto->peerId);
-    //     // $conversation->setMemberCount($dto->count);
+        $profile = new Profile;
 
-    //     // $this->entityManager->persist($conversation);
+        $profile->setUserId($dto->userId);
+        $profile->setPeerId($dto->peerId);
+        $profile->setMale($dto->isMale);
+        $profile->setNickname($dto->nickname);
+        $profile->setName($dto->name);
+        $profile->setLastname($dto->lastname);
 
-    //     // $this->entityManager->flush();
+        $this->entityManager->persist($profile);
 
-    //     return $conversation;
-    // }
+        $this->entityManager->flush();
 
+        return $profile;
+    }
 }

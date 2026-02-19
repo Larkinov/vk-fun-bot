@@ -14,8 +14,12 @@ class Profile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
+    #[ORM\Column(name: 'user_id', type: Types::BIGINT)]
     private ?string $userId = null;
+
+    #[ORM\Column(name: 'peer_id', type: Types::BIGINT)]
+    private ?string $peerId = null;
+
 
     #[ORM\Column]
     private ?bool $male = null;
@@ -45,6 +49,19 @@ class Profile
 
         return $this;
     }
+
+    public function getPeerId(): ?string
+    {
+        return $this->peerId;
+    }
+
+    public function setPeerId(string $peerId): static
+    {
+        $this->peerId = $peerId;
+
+        return $this;
+    }
+
 
     public function isMale(): ?bool
     {

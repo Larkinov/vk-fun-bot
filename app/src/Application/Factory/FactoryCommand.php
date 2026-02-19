@@ -4,7 +4,7 @@ namespace App\Application\Factory;
 
 use App\Application\Exceptions\ExceptionFactoryNotFound;
 use App\Application\UseCase\SaveConversationUseCase;
-use App\Domain\Gateway\MessageGatewayInterface;
+use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\Command\AbstractCommand;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +16,7 @@ class FactoryCommand
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         protected SaveConversationUseCase $saveConversationUseCase,
-        private MessageGatewayInterface $messageGateway,
+        private DataGatewayInterface $dataGateway,
     ) {}
 
     public function getInstance(MessageVK $message): AbstractCommand
@@ -27,7 +27,7 @@ class FactoryCommand
         $command = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
 
         if (class_exists($command))
-            return new $command($this->logger, $this->entityManager, $this->saveConversationUseCase, $this->messageGateway, $message);
+            return new $command($this->logger, $this->entityManager, $this->saveConversationUseCase, $this->dataGateway, $message);
 
         throw new ExceptionFactoryNotFound('command', $command);
     }

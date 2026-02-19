@@ -7,7 +7,7 @@ class StartCommand extends AbstractCommand
 
     public function run(): void
     {
-        $userName = $this->messageGateway->getUser($this->getFromId());
+        $userName = $this->dataGateway->getUser($this->getFromId());
 
         $conversation = ($this->saveConversationUseCase)($this->peerId);
 

@@ -19,7 +19,7 @@ services:
     App\:
         resource: "../src/"
 
-    App\Domain\Gateway\MessageGatewayInterface: '@App\Infrastructure\Gateway\VkGateway'
+    App\Domain\Gateway\DataGatewayInterface: '@App\Infrastructure\Gateway\VkGateway'
 
     App\Domain\Repository\ConversationRepositoryInterface:
         alias: App\Infrastructure\Repository\ConversationRepository
