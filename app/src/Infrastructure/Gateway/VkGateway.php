@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Gateway;
 
 use App\Domain\Gateway\DataGatewayInterface;
+use App\Infrastructure\Exceptions\ExceptionAccessGateway;
 use App\Infrastructure\Exceptions\ExceptionNullParamConfiguration;
 use App\Infrastructure\Exceptions\ExceptionGateway;
 use Psr\Log\LoggerInterface;
@@ -12,6 +13,7 @@ class VkGateway implements DataGatewayInterface
 {
 
     private const URL = "https://api.vk.ru/method";
+    private const ERROR_CODE_ACCESS = 917;
 
     private string $token;
     private string $version;
@@ -45,8 +47,10 @@ class VkGateway implements DataGatewayInterface
 
         $statusCode = $response->getStatusCode();
 
-        if ($statusCode === 200)
+        if ($statusCode === 200) {
+            $this->checkError($response->toArray(false), __FUNCTION__);
             return;
+        }
 
         $this->logger->error('failed send message', ['content' => $response->toArray(false), 'status code' => $statusCode]);
         throw new ExceptionGateway('failed send message');
@@ -74,6 +78,8 @@ class VkGateway implements DataGatewayInterface
             throw new ExceptionGateway('failed get users');
         }
 
+        $this->checkError($response->toArray(false), __FUNCTION__);
+
         $this->logger->info('get users', ['response' => $response->toArray(false)]);
 
         return $response->toArray(false)['response'][0];
@@ -95,12 +101,40 @@ class VkGateway implements DataGatewayInterface
 
         $statusCode = $response->getStatusCode();
 
+        $response = $response->toArray(false);
+
         if ($statusCode === 200) {
-            $this->logger->info('get conversation members', ['response' => $response->toArray(false)]);
-            return $response->toArray(false);
+            $this->checkError($response, __FUNCTION__);
+            $this->logger->info('get conversation members', ['response' => $response]);
+            return $response;
         }
 
-        $this->logger->error('failed get conversation members', ['content' => $response->toArray(false), 'status code' => $statusCode]);
+        $this->logger->error('failed get conversation members', ['content' => $response, 'status code' => $statusCode]);
         throw new ExceptionGateway('failed get conversation members');
+    }
+
+    private function checkError(array $response, string $funcName): void
+    {
+        $this->checkErrorAccess($response, $funcName);
+
+        if (!isset($response['error']))
+            return;
+
+        $this->logger->error('failed response from VK', ['response' => $response, 'function' => $funcName]);
+
+        throw new ExceptionGateway('failed response from VK');
+    }
+
+    private function checkErrorAccess(array $response, string $funcName): void
+    {
+        if (!isset($response['error']['error_code']))
+            return;
+
+        if ($response['error']['error_code'] !== self::ERROR_CODE_ACCESS)
+            return;
+
+        $this->logger->error('dont have access', ['response' => $response, 'function' => $funcName]);
+
+        throw new ExceptionAccessGateway;
     }
 }
