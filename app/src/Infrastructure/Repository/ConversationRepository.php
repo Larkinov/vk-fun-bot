@@ -17,4 +17,13 @@ class ConversationRepository extends ServiceEntityRepository implements ProfileR
         parent::__construct($registry, Conversation::class);
     }
 
+    public function getAdminId(int $peerId):?int{
+        return $this->createQueryBuilder('c')
+        ->select('u.admin_id')
+        ->where('u.peer_id = :peer_id')
+        ->setParameter('peer_id',$peerId)
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+
 }
