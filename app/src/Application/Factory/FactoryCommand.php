@@ -22,13 +22,13 @@ class FactoryCommand
     public function getInstance(MessageVK $message): AbstractCommand
     {
 
-        $command = ucfirst(substr($message->getText(), 1));
+        $command = $message->getCommand();
 
-        $command = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
+        $classname = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
 
-        if (class_exists($command))
-            return new $command($this->logger, $this->entityManager, $this->saveConversationUseCase, $this->dataGateway, $message);
+        if (class_exists($classname))
+            return new $classname($this->logger, $this->entityManager, $this->saveConversationUseCase, $this->dataGateway, $message);
 
-        throw new ExceptionFactoryNotFound('command', $command);
+        throw new ExceptionFactoryNotFound('command', $classname);
     }
 }

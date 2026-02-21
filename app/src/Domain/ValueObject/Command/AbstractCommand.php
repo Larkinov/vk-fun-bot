@@ -15,7 +15,6 @@ abstract class AbstractCommand
     protected int $id;
     protected int $peerId;
     protected int $fromId;
-    protected string $text;
     protected int $date;
     protected int $conversationMessageId;
 
@@ -30,11 +29,10 @@ abstract class AbstractCommand
         $this->id = $message->getId();
         $this->peerId = $message->getPeerId();
         $this->fromId = $message->getFromId();
-        $this->text = $message->getText();
         $this->date = $message->getDate();
         $this->conversationMessageId = $message->getConversationMessageId();
 
-        $this->logger->info('create command', ['id' => $message->getId(), 'peer_id' => $message->getPeerId(), 'text' => $message->getText(), 'from_id' => $message->getFromId(), 'conversation message id' => $message->getConversationMessageId()]);
+        $this->logger->info('create command', ['id' => $message->getId(), 'peer_id' => $message->getPeerId(), 'from_id' => $message->getFromId(), 'conversation message id' => $message->getConversationMessageId()]);
     }
 
     abstract public function run(): void;
@@ -58,10 +56,5 @@ abstract class AbstractCommand
     public function getConversationMessageId(): int
     {
         return $this->conversationMessageId;
-    }
-
-    public function getText(): string
-    {
-        return $this->text;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Domain\ValueObject\Command;
 
-class StartCommand extends AbstractCommand
+class KickUserCommand extends AbstractCommand
 {
 
     public function run(): void
     {
-        $this->logger->info('start command');
+        $this->logger->info('kick user');
     }
 }

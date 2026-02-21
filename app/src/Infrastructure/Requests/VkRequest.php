@@ -4,7 +4,7 @@ namespace App\Infrastructure\Requests;
 
 use App\Application\Factory\FactoryMessageVK;
 use App\Application\UseCase\ExecuteCommandUseCase;
-use App\Domain\ValueObject\VK\MessageVK;
+use App\Domain\Exceptions\ExceptionNotValidCommand;
 use Generator\Skeleton\skeleton\base\src\VK\CallbackApi\VKCallbackApiServerHandler;
 use Psr\Log\LoggerInterface;
 
@@ -21,11 +21,10 @@ class VkRequest extends VKCallbackApiServerHandler
     {
         $this->logger->info('message new', ['id' => $group_id, 'secret' => $secret, 'object' => $object]);
 
-        $messageVk = $this->factoryMessageVk->getInstance($object);
-
-        if (!MessageVK::isCorrectCommand($this->logger, $messageVk->getText()))
-            return;
-
-        ($this->executeCommandUseCase)($messageVk);
+        try {
+            $messageVk = $this->factoryMessageVk->getInstance($object);
+            ($this->executeCommandUseCase)($messageVk);
+        } catch (ExceptionNotValidCommand $th) {
+        }
     }
 }
