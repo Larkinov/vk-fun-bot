@@ -3,6 +3,8 @@
 namespace App\Domain\ValueObject\Command;
 
 use App\Application\UseCase\SaveConversationUseCase;
+use App\Application\UseCase\SaveProfileUseCase;
+use App\Domain\Entity\Conversation;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,46 +17,51 @@ abstract class AbstractCommand
     protected int $id;
     protected int $peerId;
     protected int $fromId;
+    protected ?int $memberId;
     protected int $date;
     protected int $conversationMessageId;
+
+    protected array $context = [];
+    protected ?Conversation $conversation;
 
     public function __construct(
         protected LoggerInterface $logger,
         protected EntityManagerInterface $entityManager,
         /** @var SaveConversationUseCase */
         protected SaveConversationUseCase $saveConversationUseCase,
+        protected SaveProfileUseCase $saveProfileUseCase,
         protected DataGatewayInterface $dataGateway,
         MessageVK $message,
     ) {
         $this->id = $message->getId();
         $this->peerId = $message->getPeerId();
         $this->fromId = $message->getFromId();
+        $this->memberId = $message->getMemberId();
         $this->date = $message->getDate();
         $this->conversationMessageId = $message->getConversationMessageId();
 
-        $this->logger->info('create command', ['id' => $message->getId(), 'peer_id' => $message->getPeerId(), 'from_id' => $message->getFromId(), 'conversation message id' => $message->getConversationMessageId()]);
+        $this->context = [
+            'id' => $message->getId(),
+            'peer_id' => $message->getPeerId(),
+            'from_id' => $message->getFromId(),
+            'member_id' => $message->getMemberId(),
+            'conversation message id' => $message->getConversationMessageId(),
+            'command' => static::class,
+        ];
+
+        $this->conversation = $this->entityManager->getRepository(Conversation::class)->findOneBy(['peerId' => $this->peerId]);
+
+        $this->logger->info('create command', $this->context);
     }
 
     abstract public function run(): void;
 
-    public function getId(): int
+    protected function isDisabledConversation(): bool
     {
-        return $this->id;
-    }
-    public function getPeerId(): int
-    {
-        return $this->peerId;
-    }
-    public function getFromId(): int
-    {
-        return $this->fromId;
-    }
-    public function getDate(): int
-    {
-        return $this->date;
-    }
-    public function getConversationMessageId(): int
-    {
-        return $this->conversationMessageId;
+        if (is_null($this->conversation)) {
+            $this->logger->info('disabled conversation', $this->context);
+            return true;
+        }
+        return false;
     }
 }

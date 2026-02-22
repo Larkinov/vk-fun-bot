@@ -67,6 +67,7 @@ class VkGateway implements DataGatewayInterface
                     'user_ids' => $userId,
                     'access_token' => $this->token,
                     'v' => $this->version,
+                    'fields'=>'sex,screen_name',
                 ]
             ]
         );

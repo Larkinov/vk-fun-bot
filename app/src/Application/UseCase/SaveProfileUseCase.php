@@ -19,12 +19,10 @@ class SaveProfileUseCase
         private FactoryProfile $factoryProfile,
     ) {}
 
-    public function __invoke(CreateProfileDto $dto): ?Profile
+    public function __invoke(Conversation $conversation, CreateProfileDto $dto): ?Profile
     {
         try {
             $this->logger->info('save profile', ['peerId' => $dto->peerId, 'source' => 'conversation', 'userId' => $dto->userId]);
-
-            $conversation = $this->entityManager->getRepository(Conversation::class)->findOneBy(['peerId' => $dto->peerId]);
 
             $profile = $this->entityManager->getRepository(Profile::class)->findOneBy(['peerId' => $dto->peerId, 'userId' => $dto->userId]);
 

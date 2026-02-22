@@ -21,6 +21,7 @@ class MessageVK
     private int $peerId;
     private int $fromId;
     private ?string $text;
+    private ?int $memberId;
     private int $date;
     private int $conversationMessageId;
 
@@ -30,6 +31,7 @@ class MessageVK
         $this->peerId = $object['message']->peer_id;
         $this->fromId = $object['message']->from_id;
         $this->text = $object['message']->text ?? null;
+        $this->memberId = $object['message']->action->member_id ?? null;
         $this->date = $object['message']->date;
         $this->conversationMessageId = $object['message']->conversation_message_id;
 
@@ -41,6 +43,7 @@ class MessageVK
             'peer_id' => $this->peerId,
             'command' => $this->command,
             'from_id' => $this->fromId,
+            'member_id' => $this->memberId,
             'conversation message id' => $this->conversationMessageId
         ]);
     }
@@ -52,6 +55,11 @@ class MessageVK
     public function getPeerId(): int
     {
         return $this->peerId;
+    }
+
+    public function getMemberId(): ?int
+    {
+        return $this->memberId;
     }
     public function getFromId(): int
     {
@@ -71,7 +79,8 @@ class MessageVK
         return $this->command;
     }
 
-    public function getText():string{
+    public function getText(): ?string
+    {
         return $this->text;
     }
 

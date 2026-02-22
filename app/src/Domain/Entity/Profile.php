@@ -20,7 +20,6 @@ class Profile
     #[ORM\Column(name: 'peer_id', type: Types::BIGINT)]
     private ?string $peerId = null;
 
-
     #[ORM\Column]
     private ?bool $male = null;
 

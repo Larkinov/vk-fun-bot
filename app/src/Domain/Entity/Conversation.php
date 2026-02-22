@@ -26,6 +26,9 @@ class Conversation
     #[ORM\Column(type: Types::SIMPLE_ARRAY)]
     private array $profileIds = [];
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $inactiveProfileIds = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,10 +74,31 @@ class Conversation
         return $this->profileIds;
     }
 
-    public function setProfileIds(array $profileIds): static
+    public function setProfileIds(array $ids): static
     {
-        $this->profileIds = $profileIds;
+        $this->profileIds = $ids;
 
         return $this;
+    }
+
+    public function getActiveProfileIds(): array
+    {
+        return array_diff($this->profileIds, $this->inactiveProfileIds ?? []);
+    }
+
+    public function getInactiveProfileIds(): ?array
+    {
+        return $this->inactiveProfileIds;
+    }
+
+    public function setInactiveProfileIds(array $ids): static
+    {
+        $this->inactiveProfileIds = $ids;
+
+        return $this;
+    }
+
+    public function getActiveMemberCount():int{
+        return count($this->getActiveProfileIds());
     }
 }

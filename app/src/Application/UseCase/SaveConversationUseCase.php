@@ -35,7 +35,7 @@ class SaveConversationUseCase
             if (is_null($conversation)){
                 $conversation = $this->factoryConversation->getInstance($conversationDto);
                 foreach ($conversationDto->profiles as $profile) {
-                    ($this->saveProfileUseCase)($profile);
+                    ($this->saveProfileUseCase)($conversation,$profile);
                 }
             }
 

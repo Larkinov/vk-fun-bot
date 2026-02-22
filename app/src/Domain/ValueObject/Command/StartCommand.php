@@ -7,6 +7,13 @@ class StartCommand extends AbstractCommand
 
     public function run(): void
     {
-        $this->logger->info('start command');
+        if ($this->isDisabledConversation()) {
+            $this->logger->info('init command', $this->context);
+            ($this->saveConversationUseCase)($this->peerId);
+
+            return;
+        }
+
+        $this->logger->info('active profiles', $this->conversation->getActiveProfileIds() + ['active member' => $this->conversation->getActiveMemberCount(), 'member' => $this->conversation->getMemberCount()]);
     }
 }
