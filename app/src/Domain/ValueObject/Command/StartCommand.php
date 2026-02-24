@@ -14,6 +14,6 @@ class StartCommand extends AbstractCommand
             return;
         }
 
-        $this->logger->info('active profiles', $this->conversation->getActiveProfileIds() + ['active member' => $this->conversation->getActiveMemberCount(), 'member' => $this->conversation->getMemberCount()]);
+        $this->logger->info('active profiles', $this->conversation->getActiveProfileIds() + ['active member' => $this->conversation->getActiveMemberCount(), 'member' => $this->conversation->getMemberCount(),'activedAt'=>$this->conversation->getDetails()->getActivatedAt()]);
     }
 }

@@ -29,9 +29,29 @@ class Conversation
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $inactiveProfileIds = null;
 
+    #[ORM\OneToOne(mappedBy: 'conversation', targetEntity: ConversationDetails::class, cascade: ['persist', 'remove'])]
+    private ?ConversationDetails $details = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDetails(): ?ConversationDetails
+    {
+        return $this->details;
+    }
+
+    public function setDetails(ConversationDetails $details): static
+    {
+        if ($details->getConversation() !== $this) {
+            $details->setConversation($this);
+        }
+
+        $this->details = $details;
+        
+        return $this;
     }
 
     public function getAdminId(): ?int
@@ -98,7 +118,8 @@ class Conversation
         return $this;
     }
 
-    public function getActiveMemberCount():int{
+    public function getActiveMemberCount(): int
+    {
         return count($this->getActiveProfileIds());
     }
 }

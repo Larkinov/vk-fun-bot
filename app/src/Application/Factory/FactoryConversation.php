@@ -5,6 +5,7 @@ namespace App\Application\Factory;
 use App\Application\Dto\CreateConversationDto;
 use App\Application\Exceptions\ExceptionNotFoundAdmin;
 use App\Domain\Entity\Conversation;
+use App\Domain\Entity\ConversationDetails;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -25,9 +26,16 @@ class FactoryConversation
         $conversation->setProfileIds($dto->profileIds);
 
         $this->entityManager->persist($conversation);
-
+        
+        $details = new ConversationDetails;
+        $details->setActivatedAt();
+        $details->setConversation($conversation);
+        
+        $conversation->setDetails($details);
+        
+        $this->entityManager->persist($details);
         $this->entityManager->flush();
-
+        
         return $conversation;
     }
 
