@@ -10,15 +10,17 @@ use App\Domain\ValueObject\Command\AbstractCommand;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FactoryCommand
 {
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
-        protected SaveConversationUseCase $saveConversationUseCase,
-        protected SaveProfileUseCase $saveProfileUseCase,
+        private SaveConversationUseCase $saveConversationUseCase,
+        private SaveProfileUseCase $saveProfileUseCase,
         private DataGatewayInterface $dataGateway,
+        private TranslatorInterface $translator,
     ) {}
 
     public function getInstance(MessageVK $message): AbstractCommand
@@ -35,6 +37,7 @@ class FactoryCommand
                 $this->saveConversationUseCase,
                 $this->saveProfileUseCase,
                 $this->dataGateway,
+                $this->translator,
                 $message
             );
 

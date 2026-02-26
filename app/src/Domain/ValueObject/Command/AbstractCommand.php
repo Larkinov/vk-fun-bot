@@ -9,6 +9,7 @@ use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractCommand
 {
@@ -31,6 +32,7 @@ abstract class AbstractCommand
         protected SaveConversationUseCase $saveConversationUseCase,
         protected SaveProfileUseCase $saveProfileUseCase,
         protected DataGatewayInterface $dataGateway,
+        protected TranslatorInterface $translator,
         MessageVK $message,
     ) {
         $this->id = $message->getId();
