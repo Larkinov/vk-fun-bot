@@ -56,10 +56,10 @@ abstract class AbstractCommand
 
     abstract public function run(): void;
 
-    protected function isDisabledConversation(): bool
+    protected function isNewConversation(): bool
     {
         if (is_null($this->conversation)) {
-            $this->logger->info('disabled conversation', $this->context);
+            $this->logger->info('new conversation', $this->context);
             return true;
         }
         return false;

@@ -10,7 +10,7 @@ class NewUserCommand extends AbstractCommand
 
     public function run(): void
     {
-        if ($this->isDisabledConversation())
+        if ($this->isNewConversation())
             return;
         
 
