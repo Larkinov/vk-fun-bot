@@ -11,16 +11,19 @@ class StartCommand extends AbstractCommand
             $this->logger->info('first init command', $this->context);
             ($this->saveConversationUseCase)($this->peerId);
 
-            $message = $this->translator->trans('command.start.first', ['botName' => $_ENV['BOT_NAME']], 'main');
-
-            $this->dataGateway->sendMessage($message, $this->peerId);
+            $this->dataGateway->sendMessage($this->getMessage(['started'=>'first']), $this->peerId);
             return;
         }
 
         $this->logger->info('repeat init command', $this->context);
+        $this->dataGateway->sendMessage($this->getMessage(['started'=>'repeat']), $this->peerId);
+    }
 
-        $message = $this->translator->trans('command.start.repeat', ['botName' => $_ENV['BOT_NAME']], 'main');
-
-        $this->dataGateway->sendMessage($message, $this->peerId);
+    protected function getMessage(array $options = []): string
+    {
+        return $this->messageBuilder
+            ->setMessageId('command.start')
+            ->addNewOptions('started', $options['started'])
+            ->build();
     }
 }

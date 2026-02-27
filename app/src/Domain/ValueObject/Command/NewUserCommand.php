@@ -12,10 +12,6 @@ class NewUserCommand extends AbstractCommand
     {
         if ($this->isNewConversation())
             return;
-        
-
-
-        $this->logger->info('init command', $this->context);
 
         if (is_null($this->memberId))
             throw new ExceptionNullMemberId;
@@ -32,7 +28,7 @@ class NewUserCommand extends AbstractCommand
 
             $this->logger->info('get new user from VK', $this->context + ['user' => $user]);
 
-            ($this->saveProfileUseCase)($this->conversation,new CreateProfileDto($this->peerId, $user));
+            ($this->saveProfileUseCase)($this->conversation, new CreateProfileDto($this->peerId, $user));
         }
 
         $inactiveProfiles = $this->conversation->getInactiveProfileIds();
@@ -44,5 +40,17 @@ class NewUserCommand extends AbstractCommand
             $this->entityManager->persist($this->conversation);
             $this->entityManager->flush();
         }
+
+        $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
+    }
+
+    protected function getMessage(array $options = []): string
+    {
+        $profile = $this->getProfile($this->memberId);
+
+        return $this->messageBuilder
+            ->setMessageId('command.newuser')
+            ->setProfile($profile)
+            ->build();
     }
 }

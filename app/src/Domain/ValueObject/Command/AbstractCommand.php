@@ -4,7 +4,9 @@ namespace App\Domain\ValueObject\Command;
 
 use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
+use App\Domain\Builder\MessageBuilder;
 use App\Domain\Entity\Conversation;
+use App\Domain\Entity\Profile;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +34,7 @@ abstract class AbstractCommand
         protected SaveConversationUseCase $saveConversationUseCase,
         protected SaveProfileUseCase $saveProfileUseCase,
         protected DataGatewayInterface $dataGateway,
-        protected TranslatorInterface $translator,
+        protected MessageBuilder $messageBuilder,
         MessageVK $message,
     ) {
         $this->id = $message->getId();
@@ -57,6 +59,13 @@ abstract class AbstractCommand
     }
 
     abstract public function run(): void;
+    abstract protected function getMessage(array $options = []): string;
+
+    protected function getProfile(int $id): ?Profile
+    {
+        $this->logger->info('get profile from command', $this->context + ['profile id' => $id]);
+        return $this->entityManager->getRepository(Profile::class)->findOneBy(['userId' => $id]);
+    }
 
     protected function isNewConversation(): bool
     {

@@ -5,12 +5,12 @@ namespace App\Application\Factory;
 use App\Application\Exceptions\ExceptionFactoryNotFound;
 use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
+use App\Domain\Builder\MessageBuilder;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\Command\AbstractCommand;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FactoryCommand
 {
@@ -20,7 +20,7 @@ class FactoryCommand
         private SaveConversationUseCase $saveConversationUseCase,
         private SaveProfileUseCase $saveProfileUseCase,
         private DataGatewayInterface $dataGateway,
-        private TranslatorInterface $translator,
+        private MessageBuilder $messageBuilder,
     ) {}
 
     public function getInstance(MessageVK $message): AbstractCommand
@@ -37,7 +37,7 @@ class FactoryCommand
                 $this->saveConversationUseCase,
                 $this->saveProfileUseCase,
                 $this->dataGateway,
-                $this->translator,
+                $this->messageBuilder,
                 $message
             );
 
