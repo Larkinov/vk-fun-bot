@@ -50,7 +50,7 @@ class Conversation
         }
 
         $this->details = $details;
-        
+
         return $this;
     }
 
@@ -103,7 +103,7 @@ class Conversation
 
     public function getActiveProfileIds(): array
     {
-        return array_diff($this->profileIds, $this->inactiveProfileIds ?? []);
+        return array_values(array_diff($this->profileIds, $this->inactiveProfileIds ?? []));
     }
 
     public function getInactiveProfileIds(): ?array

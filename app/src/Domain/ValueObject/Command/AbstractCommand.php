@@ -6,12 +6,12 @@ use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
 use App\Domain\Builder\MessageBuilder;
 use App\Domain\Entity\Conversation;
+use App\Domain\Entity\ConversationDetails;
 use App\Domain\Entity\Profile;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractCommand
 {
@@ -26,6 +26,7 @@ abstract class AbstractCommand
 
     protected array $context = [];
     protected ?Conversation $conversation;
+    protected ?ConversationDetails $conversationDetails = null;
 
     public function __construct(
         protected LoggerInterface $logger,
@@ -54,6 +55,9 @@ abstract class AbstractCommand
         ];
 
         $this->conversation = $this->entityManager->getRepository(Conversation::class)->findOneBy(['peerId' => $this->peerId]);
+
+        if (!is_null($this->conversation))
+            $this->conversationDetails = $this->conversation->getDetails();
 
         $this->logger->info('create command', $this->context);
     }
