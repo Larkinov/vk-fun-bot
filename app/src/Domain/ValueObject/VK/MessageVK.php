@@ -94,7 +94,7 @@ class MessageVK
         if (!empty($this->text)) {
             $pattern = '/^\/[a-z]+$/';
 
-            if (strlen($this->text) > AbstractCommand::MAX_LENGTH) {
+            if (strlen($this->text) > AbstractCommand::MAX_LENGTH_COMMAND) {
                 $this->logger->info('skip message', ['reason' => 'text too long length']);
                 throw new ExceptionNotValidCommand;
             }

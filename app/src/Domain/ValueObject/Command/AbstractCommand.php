@@ -9,13 +9,14 @@ use App\Domain\Entity\Conversation;
 use App\Domain\Entity\ConversationDetails;
 use App\Domain\Entity\Profile;
 use App\Domain\Gateway\DataGatewayInterface;
+use App\Domain\Services\TimeService;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractCommand
 {
-    public const MAX_LENGTH = 100;
+    public const MAX_LENGTH_COMMAND = 100;
 
     protected int $id;
     protected int $peerId;
@@ -36,6 +37,7 @@ abstract class AbstractCommand
         protected SaveProfileUseCase $saveProfileUseCase,
         protected DataGatewayInterface $dataGateway,
         protected MessageBuilder $messageBuilder,
+        protected TimeService $timeService,
         MessageVK $message,
     ) {
         $this->id = $message->getId();

@@ -7,6 +7,7 @@ use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
 use App\Domain\Builder\MessageBuilder;
 use App\Domain\Gateway\DataGatewayInterface;
+use App\Domain\Services\TimeService;
 use App\Domain\ValueObject\Command\AbstractCommand;
 use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ class FactoryCommand
         private SaveProfileUseCase $saveProfileUseCase,
         private DataGatewayInterface $dataGateway,
         private MessageBuilder $messageBuilder,
+        private TimeService $timeService,
     ) {}
 
     public function getInstance(MessageVK $message): AbstractCommand
@@ -38,6 +40,7 @@ class FactoryCommand
                 $this->saveProfileUseCase,
                 $this->dataGateway,
                 $this->messageBuilder,
+                $this->timeService,
                 $message
             );
 
