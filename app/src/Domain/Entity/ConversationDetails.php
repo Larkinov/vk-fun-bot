@@ -10,8 +10,11 @@ class ConversationDetails
 {
     #[ORM\Id]
     #[ORM\OneToOne(targetEntity: Conversation::class, inversedBy: 'details')]
-    #[ORM\JoinColumn(name: 'peer_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'id_conversation', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private ?Conversation $conversation = null;
+
+    #[ORM\Column(name: 'peer_id')]
+    private ?int $peerId = null;
 
     #[ORM\Column(type: 'bigint', nullable: true)]
     private ?string $activatedAt = null;
@@ -50,6 +53,17 @@ class ConversationDetails
     {
         $this->looserData = $looserData;
 
+        return $this;
+    }
+
+    public function getPeerId(): int
+    {
+        return $this->peerId;
+    }
+
+    public function setPeerId(int $id): static
+    {
+        $this->peerId = $id;
         return $this;
     }
 }

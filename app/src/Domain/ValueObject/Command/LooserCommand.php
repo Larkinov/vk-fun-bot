@@ -10,6 +10,8 @@ class LooserCommand extends AbstractCommand
 {
 
     private const DELAY_TIME_HOURS = 8;
+    private const LAST_NUMBER_TEXT = 103;
+
     public function run(): void
     {
         if ($this->isNewConversation())
@@ -33,7 +35,7 @@ class LooserCommand extends AbstractCommand
             $this->updateLooserData($looserData, $idLooser);
 
             return $this->messageBuilder
-                ->setMessageId('command.looser')
+                ->setMessageId($this->getRandomText())
                 ->setProfile($this->getProfile($idLooser))
                 ->setDomain(MessageBuilder::DOMAIN_LOOSER)
                 ->build();
@@ -62,5 +64,10 @@ class LooserCommand extends AbstractCommand
         $this->conversationDetails->setLooserData($looserData);
         $this->entityManager->persist($this->conversationDetails);
         $this->entityManager->flush();
+    }
+
+    private function getRandomText(): string
+    {
+        return "command.looser.variant_" . random_int(0, self::LAST_NUMBER_TEXT);
     }
 }

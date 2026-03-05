@@ -25,8 +25,10 @@ class LooserDataType extends JsonType
                 'profiles' => $value->getProfiles(),
                 'lastActiveAt' => $value->getLastActive(),
             ];
+             return parent::convertToDatabaseValue($value, $platform);
         }
-        return parent::convertToDatabaseValue($value, $platform);
+
+       return '{}';
     }
 
     public function getName(): string

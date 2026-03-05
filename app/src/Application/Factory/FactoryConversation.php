@@ -26,16 +26,17 @@ class FactoryConversation
         $conversation->setProfileIds($dto->profileIds);
 
         $this->entityManager->persist($conversation);
-        
+
         $details = new ConversationDetails;
         $details->setActivatedAt();
         $details->setConversation($conversation);
-        
+        $details->setPeerId($dto->peerId);
+
         $conversation->setDetails($details);
-        
+
         $this->entityManager->persist($details);
         $this->entityManager->flush();
-        
+
         return $conversation;
     }
 

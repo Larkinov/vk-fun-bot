@@ -31,7 +31,7 @@ class ExecuteCommandUseCase
 
             $command->run();
         } catch (ExceptionFactoryNotFound $th) {
-            $this->handleError($th, $messageVk->getPeerId(), self::SERVICE_MESSAGE_NOT_FOUND_COMMAND);
+            $this->handleError($th, $messageVk->getPeerId(), self::SERVICE_MESSAGE_NOT_FOUND_COMMAND, false);
         } catch (ExceptionAccessGateway $th) {
             $this->handleError($th, $messageVk->getPeerId(), self::SERVICE_MESSAGE_FAILED_ACCESS);
         } catch (\Throwable $th) {
@@ -39,11 +39,11 @@ class ExecuteCommandUseCase
         }
     }
 
-    private function handleError(Throwable $th, int $peerId, string $serviceMessage): void
+    private function handleError(Throwable $th, int $peerId, string $serviceMessage, bool $sendFailedMessage = true): void
     {
         $this->logger->error('failed command', ['message' => $th->getMessage(), 'trace' => $th->getTrace()]);
         $this->dataGateway->sendMessage($serviceMessage, $peerId);
-        if (isset($_ENV['USER_SERVICE_ID']))
+        if (isset($_ENV['USER_SERVICE_ID']) && $sendFailedMessage)
             $this->dataGateway->sendMessage(self::MESSAGE_FAILED_COMMAND . $peerId . ":\n\n" .  $th->getMessage(), $_ENV['USER_SERVICE_ID']);
     }
 }
