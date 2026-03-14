@@ -101,8 +101,10 @@ class StatisticCommand extends AbstractCommand
 
         if (isset($statisticLooser[$type]))
             $statisticLooser = $statisticLooser[$type];
+        
+        $idLoosers = $this->conversation->getActiveProfileIds();
 
-        $profilesData = $this->entityManager->getRepository(Profile::class)->findAll();
+        $profilesData = $this->entityManager->getRepository(Profile::class)->findBy(['userId' => $idLoosers]);
 
         if (empty($profilesData))
             throw new ExceptionEmptyStatistic;
