@@ -2,6 +2,7 @@
 
 namespace App\Domain\ValueObject\Command;
 
+use App\Domain\Builder\MessageBuilder;
 use App\Domain\Entity\Profile;
 use App\Domain\Exceptions\Command\Statistic\ExceptionEmptyStatistic;
 use App\Domain\Exceptions\ExceptionUnknownStatisticType;
@@ -19,12 +20,12 @@ class StatisticCommand extends AbstractCommand
 
     public static function isNewWeek(LooserData $looserData): bool
     {
-        return $looserData->getLastWeekActive() !== date('W');
+        return $looserData->getLastWeekActive() !== (int)date('W');
     }
 
     public static function isNewMonth(LooserData $looserData): bool
     {
-        return $looserData->getLastMonthActive() !== date('n');
+        return $looserData->getLastMonthActive() !== (int)date('n');
     }
 
     public function setType(string $type)
@@ -49,26 +50,29 @@ class StatisticCommand extends AbstractCommand
             case self::TYPE_LOOSER_ALL_TIME:
                 return $this->messageBuilder
                     ->setMessageId('command.statistic.looser_all')
-                    ->setAdditionalText($this->getMessageLooserStats())
+                    ->setAdditionalText($this->getMessageLooserStats($this->type))
+                    ->setDomain(MessageBuilder::DOMAIN_MAIN)
                     ->build();
             case self::TYPE_LOOSER_MONTH:
                 return $this->messageBuilder
                     ->setMessageId('command.statistic.looser_month')
-                    ->setAdditionalText($this->getMessageLooserStats("\n***\n"))
+                    ->setAdditionalText($this->getMessageLooserStats($this->type))
+                    ->setDomain(MessageBuilder::DOMAIN_MAIN)
                     ->build();
             case self::TYPE_LOOSER_WEEK:
                 return $this->messageBuilder
                     ->setMessageId('command.statistic.looser_week')
-                    ->setAdditionalText($this->getMessageLooserStats("\n***\n"))
+                    ->setAdditionalText($this->getMessageLooserStats($this->type))
+                    ->setDomain(MessageBuilder::DOMAIN_MAIN)
                     ->build();
             default:
                 throw new ExceptionUnknownStatisticType($this->type);
         }
     }
 
-    private function getMessageLooserStats(): string
+    private function getMessageLooserStats(string $type): string
     {
-        $looserStats = $this->getLooserStats();
+        $looserStats = $this->getLooserStats($type);
 
         uasort($looserStats, fn($a, $b) => $b['count'] <=> $a['count']);
 
@@ -91,13 +95,12 @@ class StatisticCommand extends AbstractCommand
         return $message;
     }
 
-    private function getLooserStats(): array
+    private function getLooserStats(string $type): array
     {
         $statisticLooser = $this->conversationDetails->getLooserData()->getProfiles();
 
-        if (isset($statisticLooser[$this->type]))
-            $statisticLooser = $statisticLooser[$this->type];
-
+        if (isset($statisticLooser[$type]))
+            $statisticLooser = $statisticLooser[$type];
 
         $profilesData = $this->entityManager->getRepository(Profile::class)->findAll();
 
@@ -116,8 +119,32 @@ class StatisticCommand extends AbstractCommand
                 'lastname' => $profile->getLastname()
             ];
         }
-        $this->logger->info('get looser statistic', ['statistic' => $loosersData]);
+
+        $this->logger->info('get looser statistic', ['statistic' => $loosersData, 'type' => $type]);
+
+        if ($type === self::TYPE_LOOSER_MONTH || $type === self::TYPE_LOOSER_WEEK)
+            $this->clearStats($type);
 
         return $loosersData;
+    }
+
+    private function clearStats(string $type): void
+    {
+        $looserData = $this->conversationDetails->getLooserData();
+
+        $profiles = $looserData->getProfiles();
+
+        if (!isset($profiles[$type]))
+            return;
+
+        foreach ($profiles[$type] as &$value) {
+            $value = 0;
+        }
+
+        $this->conversationDetails->setLooserData($looserData->setProfiles($profiles));
+        $this->entityManager->persist($this->conversationDetails);
+        $this->entityManager->flush();
+
+        $this->logger->info('clear looser statistic', ['type' => $type]);
     }
 }

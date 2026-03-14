@@ -3,6 +3,7 @@
 namespace App\Domain\ValueObject\Command;
 
 use App\Application\Dto\CreateProfileDto;
+use App\Domain\Builder\MessageBuilder;
 use App\Domain\Exceptions\ExceptionNullMemberId;
 
 class NewUserCommand extends AbstractCommand
@@ -50,6 +51,7 @@ class NewUserCommand extends AbstractCommand
 
         return $this->messageBuilder
             ->setMessageId('command.newuser')
+            ->setDomain(MessageBuilder::DOMAIN_MAIN)
             ->setProfile($profile)
             ->build();
     }

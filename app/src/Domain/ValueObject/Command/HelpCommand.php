@@ -2,6 +2,8 @@
 
 namespace App\Domain\ValueObject\Command;
 
+use App\Domain\Builder\MessageBuilder;
+
 class HelpCommand extends AbstractCommand
 {
 
@@ -17,6 +19,7 @@ class HelpCommand extends AbstractCommand
     {
         return $this->messageBuilder
             ->setMessageId('command.help')
+            ->setDomain(MessageBuilder::DOMAIN_MAIN)
             ->build();
     }
 }

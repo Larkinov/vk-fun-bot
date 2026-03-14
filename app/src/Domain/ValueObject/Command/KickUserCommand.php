@@ -2,6 +2,7 @@
 
 namespace App\Domain\ValueObject\Command;
 
+use App\Domain\Builder\MessageBuilder;
 use App\Domain\Exceptions\ExceptionNullMemberId;
 
 class KickUserCommand extends AbstractCommand
@@ -36,6 +37,7 @@ class KickUserCommand extends AbstractCommand
         return $this->messageBuilder
             ->setMessageId('command.kick')
             ->setProfile($profile)
+            ->setDomain(MessageBuilder::DOMAIN_MAIN)
             ->build();
     }
 }

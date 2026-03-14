@@ -13,6 +13,9 @@ class LooserCommand extends AbstractCommand
     private const LAST_NUMBER_TEXT = 103;
 
     private int $remainingTime;
+    private bool $isNewWeek = false;
+    private bool $isNewMonth = false;
+
 
     public function run(): void
     {
@@ -22,8 +25,7 @@ class LooserCommand extends AbstractCommand
         $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
 
         if ($this->remainingTime <= 0) {
-            $looserData = $this->conversationDetails->getLooserData();
-            $this->checkStatistic($looserData);
+            $this->checkStatistic();
         }
     }
 
@@ -39,6 +41,10 @@ class LooserCommand extends AbstractCommand
         );
 
         if ($this->remainingTime <= 0) {
+
+            $this->isNewWeek = StatisticCommand::isNewWeek($looserData);
+            $this->isNewMonth = StatisticCommand::isNewMonth($looserData);
+
             $this->updateLooserData($looserData, $idLooser);
 
             return $this->messageBuilder
@@ -50,6 +56,7 @@ class LooserCommand extends AbstractCommand
             return $this->messageBuilder
                 ->setMessageId('service.denied.delay_time')
                 ->addNewOptions('hour', $this->remainingTime)
+                ->setDomain(MessageBuilder::DOMAIN_MAIN)
                 ->build();
         }
     }
@@ -78,9 +85,9 @@ class LooserCommand extends AbstractCommand
         return "command.looser.variant_" . random_int(0, self::LAST_NUMBER_TEXT);
     }
 
-    private function checkStatistic(LooserData $looserData): void
+    private function checkStatistic(): void
     {
-        if (StatisticCommand::isNewWeek($looserData) || StatisticCommand::isNewMonth($looserData)) {
+        if ($this->isNewWeek || $this->isNewMonth) {
 
             $statistic = new StatisticCommand(
                 $this->logger,
@@ -93,12 +100,13 @@ class LooserCommand extends AbstractCommand
                 $this->message,
             );
 
-            if (StatisticCommand::isNewWeek($looserData)) {
+
+            if ($this->isNewWeek) {
                 $statistic->setType(StatisticCommand::TYPE_LOOSER_WEEK);
                 $statistic->run();
             }
 
-            if (StatisticCommand::isNewMonth($looserData)) {
+            if ($this->isNewMonth) {
                 $statistic->setType(StatisticCommand::TYPE_LOOSER_MONTH);
                 $statistic->run();
             }

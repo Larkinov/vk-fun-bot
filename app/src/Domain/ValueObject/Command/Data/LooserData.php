@@ -31,15 +31,25 @@ class LooserData
         return $this->lastMonthActive;
     }
 
+    public function setProfiles(array $profiles): self
+    {
+        return new self(
+            $profiles,
+            $this->lastActiveAt,
+            $this->lastWeekActive,
+            $this->lastMonthActive
+        );
+    }
+
     public function incrementLooser(int $idLooser): self
     {
         $this->lastActiveAt = time();
         $this->lastWeekActive = date('W');
         $this->lastMonthActive = date('n');
 
-        $this->updateLooserStatistic(StatisticCommand::TYPE_LOOSER_ALL_TIME, $idLooser);
-        $this->updateLooserStatistic(StatisticCommand::TYPE_LOOSER_MONTH, $idLooser);
-        $this->updateLooserStatistic(StatisticCommand::TYPE_LOOSER_WEEK, $idLooser);
+        $this->incrementLooserStatistic(StatisticCommand::TYPE_LOOSER_ALL_TIME, $idLooser);
+        $this->incrementLooserStatistic(StatisticCommand::TYPE_LOOSER_MONTH, $idLooser);
+        $this->incrementLooserStatistic(StatisticCommand::TYPE_LOOSER_WEEK, $idLooser);
 
         return new self(
             $this->profiles,
@@ -49,7 +59,7 @@ class LooserData
         );
     }
 
-    private function updateLooserStatistic(string $type, int $idLooser): void
+    private function incrementLooserStatistic(string $type, int $idLooser): void
     {
         if (isset($this->profiles[$type][$idLooser]))
             $this->profiles[$type][$idLooser]++;
