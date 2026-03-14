@@ -41,9 +41,9 @@ class ExecuteCommandUseCase
 
     private function handleError(Throwable $th, int $peerId, string $serviceMessage, bool $sendFailedMessage = true): void
     {
-        $this->logger->error('failed command', ['message' => $th->getMessage(), 'trace' => $th->getTrace()]);
+        $this->logger->error('failed command', ['message' => $th->getMessage(), 'file' => $th->getFile(), 'line' => $th->getLine(), 'trace' => $th->getTrace()]);
         $this->dataGateway->sendMessage($serviceMessage, $peerId);
         if (isset($_ENV['USER_SERVICE_ID']) && $sendFailedMessage)
-            $this->dataGateway->sendMessage(self::MESSAGE_FAILED_COMMAND . $peerId . ":\n\n" .  $th->getMessage(), $_ENV['USER_SERVICE_ID']);
+            $this->dataGateway->sendMessage(self::MESSAGE_FAILED_COMMAND . $peerId . ":\n\n" .  $th->getMessage().';'.$th->getFile().';'.$th->getLine(), $_ENV['USER_SERVICE_ID']);
     }
 }

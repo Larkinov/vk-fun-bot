@@ -15,7 +15,12 @@ class LooserDataType extends JsonType
         $data = parent::convertToPHPValue($value, $platform);
         if ($data === null) return null;
 
-        return new LooserData($data['profiles'] ?? [], $data['lastActiveAt'] ?? 0);
+        return new LooserData(
+            $data['profiles'] ?? [],
+            $data['lastActiveAt'] ?? 0,
+            $data['lastWeekActive'] ?? 0,
+            $data['lastMonthActive'] ?? 0,
+        );
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
@@ -24,11 +29,13 @@ class LooserDataType extends JsonType
             $value = [
                 'profiles' => $value->getProfiles(),
                 'lastActiveAt' => $value->getLastActive(),
+                'lastWeekActive' => $value->getLastWeekActive(),
+                'lastMonthActive' => $value->getLastMonthActive(),
             ];
-             return parent::convertToDatabaseValue($value, $platform);
+            return parent::convertToDatabaseValue($value, $platform);
         }
 
-       return '{}';
+        return '{}';
     }
 
     public function getName(): string

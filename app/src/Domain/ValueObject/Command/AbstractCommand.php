@@ -38,7 +38,7 @@ abstract class AbstractCommand
         protected DataGatewayInterface $dataGateway,
         protected MessageBuilder $messageBuilder,
         protected TimeService $timeService,
-        MessageVK $message,
+        protected MessageVK $message,
     ) {
         $this->id = $message->getId();
         $this->peerId = $message->getPeerId();

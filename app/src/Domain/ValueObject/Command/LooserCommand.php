@@ -12,12 +12,19 @@ class LooserCommand extends AbstractCommand
     private const DELAY_TIME_HOURS = 8;
     private const LAST_NUMBER_TEXT = 103;
 
+    private int $remainingTime;
+
     public function run(): void
     {
         if ($this->isNewConversation())
             return;
 
         $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
+
+        if ($this->remainingTime <= 0) {
+            $looserData = $this->conversationDetails->getLooserData();
+            $this->checkStatistic($looserData);
+        }
     }
 
     protected function getMessage(array $options = []): string
@@ -25,13 +32,13 @@ class LooserCommand extends AbstractCommand
         $idLooser = $this->getRandomIdProfile();
         $looserData = $this->conversationDetails->getLooserData();
 
-        $remainingTime = $this->timeService->getRemainingTime(
+        $this->remainingTime = $this->timeService->getRemainingTime(
             $looserData->getLastActive(),
             TimeService::DELAY_MODE_HOUR,
             self::DELAY_TIME_HOURS
         );
 
-        if ($remainingTime <= 0) {
+        if ($this->remainingTime <= 0) {
             $this->updateLooserData($looserData, $idLooser);
 
             return $this->messageBuilder
@@ -42,7 +49,7 @@ class LooserCommand extends AbstractCommand
         } else {
             return $this->messageBuilder
                 ->setMessageId('service.denied.delay_time')
-                ->addNewOptions('hour', $remainingTime)
+                ->addNewOptions('hour', $this->remainingTime)
                 ->build();
         }
     }
@@ -69,5 +76,32 @@ class LooserCommand extends AbstractCommand
     private function getRandomText(): string
     {
         return "command.looser.variant_" . random_int(0, self::LAST_NUMBER_TEXT);
+    }
+
+    private function checkStatistic(LooserData $looserData): void
+    {
+        if (StatisticCommand::isNewWeek($looserData) || StatisticCommand::isNewMonth($looserData)) {
+
+            $statistic = new StatisticCommand(
+                $this->logger,
+                $this->entityManager,
+                $this->saveConversationUseCase,
+                $this->saveProfileUseCase,
+                $this->dataGateway,
+                $this->messageBuilder,
+                $this->timeService,
+                $this->message,
+            );
+
+            if (StatisticCommand::isNewWeek($looserData)) {
+                $statistic->setType(StatisticCommand::TYPE_LOOSER_WEEK);
+                $statistic->run();
+            }
+
+            if (StatisticCommand::isNewMonth($looserData)) {
+                $statistic->setType(StatisticCommand::TYPE_LOOSER_MONTH);
+                $statistic->run();
+            }
+        }
     }
 }

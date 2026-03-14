@@ -15,6 +15,7 @@ class MessageBuilder
     private string $id;
     private array $options;
     private string $domain;
+    private string $additionalText = '';
 
     public function __construct(
         private TranslatorInterface $translator,
@@ -52,6 +53,12 @@ class MessageBuilder
         return $this;
     }
 
+    public function setAdditionalText(string $text): static
+    {
+        $this->additionalText = $text;
+        return $this;
+    }
+
     public function setProfile(Profile $profile): static
     {
         $this->options['name'] = $profile->getName();
@@ -64,6 +71,6 @@ class MessageBuilder
     {
         $message =  $this->translator->trans($this->id, $this->options, $this->domain);
         $this->logger->info('complete build message', ['message' => $message]);
-        return $message;
+        return $message . $this->additionalText;
     }
 }
