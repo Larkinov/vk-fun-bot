@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Application\Dto;
 
 use App\Infrastructure\Exceptions\ExceptionGateway;

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Domain\Services;
 
 use App\Domain\Exceptions\ExceptionUnknownDelayMode;
@@ -61,11 +61,11 @@ class TimeService
     {
         switch ($mode) {
             case self::DELAY_MODE_DAY:
-                return floor($time / 60 / 60 / 24);
+                return (int)floor($time / 60 / 60 / 24);
             case self::DELAY_MODE_HOUR:
-                return floor($time / 60 / 60);
+                return (int)floor($time / 60 / 60);
             case self::DELAY_MODE_MINUTE:
-                return floor($time / 60);
+                return (int)floor($time / 60);
             case self::DELAY_MODE_SECOND:
                 return $time;
             default:

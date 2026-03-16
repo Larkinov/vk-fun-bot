@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Domain\ValueObject\Command;
 
 use App\Domain\Builder\MessageBuilder;
@@ -55,7 +55,7 @@ class LooserCommand extends AbstractCommand
         } else {
             return $this->messageBuilder
                 ->setMessageId('service.denied.delay_time')
-                ->addNewOptions('hour', $this->remainingTime)
+                ->addNewOptions('hour', (string)$this->remainingTime)
                 ->setDomain(MessageBuilder::DOMAIN_MAIN)
                 ->build();
         }
@@ -64,7 +64,7 @@ class LooserCommand extends AbstractCommand
     private function getRandomIdProfile(): int
     {
         $profiles = $this->conversation->getActiveProfileIds();
-        return $profiles[random_int(0, count($profiles) - 1)];
+        return (int)$profiles[random_int(0, count($profiles) - 1)];
     }
 
     private function updateLooserData(LooserData $looserData, int $idLooser): void

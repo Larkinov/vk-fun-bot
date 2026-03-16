@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Domain\ValueObject\Command\Data;
 
 use App\Domain\ValueObject\Command\StatisticCommand;
@@ -44,8 +44,8 @@ class LooserData
     public function incrementLooser(int $idLooser): self
     {
         $this->lastActiveAt = time();
-        $this->lastWeekActive = date('W');
-        $this->lastMonthActive = date('n');
+        $this->lastWeekActive = (int)date('W');
+        $this->lastMonthActive = (int)date('n');
 
         $this->incrementLooserStatistic(StatisticCommand::TYPE_LOOSER_ALL_TIME, $idLooser);
         $this->incrementLooserStatistic(StatisticCommand::TYPE_LOOSER_MONTH, $idLooser);

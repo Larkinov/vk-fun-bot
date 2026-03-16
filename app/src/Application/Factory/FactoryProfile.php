@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Application\Factory;
 
 use App\Application\Dto\CreateProfileDto;
@@ -17,8 +17,8 @@ class FactoryProfile
 
         $profile = new Profile;
 
-        $profile->setUserId($dto->userId);
-        $profile->setPeerId($dto->peerId);
+        $profile->setUserId((string)$dto->userId);
+        $profile->setPeerId((string)$dto->peerId);
         $profile->setMale($dto->isMale);
         $profile->setNickname($dto->nickname);
         $profile->setName($dto->name);
