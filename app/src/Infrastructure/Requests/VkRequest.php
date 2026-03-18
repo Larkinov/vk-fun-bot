@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace App\Infrastructure\Requests;
 
+use App\Application\Exceptions\Dto\ExceptionNotValidCommand;
 use App\Application\Factory\FactoryMessageVK;
 use App\Application\UseCase\ExecuteCommandUseCase;
-use App\Domain\Exceptions\ExceptionNotValidCommand;
 use Generator\Skeleton\skeleton\base\src\VK\CallbackApi\VKCallbackApiServerHandler;
 use Psr\Log\LoggerInterface;
 

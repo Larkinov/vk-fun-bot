@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace App\Domain\ValueObject\Command;
+namespace App\Application\UseCase\Command;
 
+use App\Application\Dto\MessageVK;
 use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
 use App\Domain\Builder\MessageBuilder;
@@ -10,7 +11,6 @@ use App\Domain\Entity\ConversationDetails;
 use App\Domain\Entity\Profile;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\Services\TimeService;
-use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 

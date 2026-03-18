@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace App\Application\Factory;
 
-use App\Application\Exceptions\ExceptionFactoryNotFound;
+use App\Application\Dto\MessageVK;
+use App\Application\Exceptions\Factory\ExceptionFactoryNotFound;
+use App\Application\UseCase\Command\AbstractCommand;
 use App\Application\UseCase\SaveConversationUseCase;
 use App\Application\UseCase\SaveProfileUseCase;
 use App\Domain\Builder\MessageBuilder;
 use App\Domain\Gateway\DataGatewayInterface;
 use App\Domain\Services\TimeService;
-use App\Domain\ValueObject\Command\AbstractCommand;
-use App\Domain\ValueObject\VK\MessageVK;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -30,7 +30,7 @@ class FactoryCommand
 
         $command = $message->getCommand();
 
-        $classname = "App\\Domain\\ValueObject\\Command\\$command" . "Command";
+        $classname = "App\\Application\\UseCase\\Command\\$command" . "Command";
 
         if (class_exists($classname))
             return new $classname(

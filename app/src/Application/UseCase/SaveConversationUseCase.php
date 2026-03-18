@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace App\Application\UseCase;
 
 use App\Application\Dto\CreateConversationDto;
-use App\Application\Exceptions\ExceptionNotFoundAdmin;
+use App\Application\Exceptions\Factory\ExceptionNotFoundAdmin;
 use App\Application\Factory\FactoryConversation;
 use App\Domain\Entity\Conversation;
 use App\Domain\Gateway\DataGatewayInterface;

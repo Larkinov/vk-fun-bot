@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Domain\Entity;
 
-use App\Domain\ValueObject\Command\Data\LooserData;
+use App\Application\UseCase\Command\Data\LooserData;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]

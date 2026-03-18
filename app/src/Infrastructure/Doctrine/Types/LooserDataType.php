@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Infrastructure\Doctrine\Types;
 
-use App\Domain\ValueObject\Command\Data\LooserData;
+use App\Application\UseCase\Command\Data\LooserData;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\JsonType;
 

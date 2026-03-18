@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Application\Factory;
 
-use App\Domain\ValueObject\VK\MessageVK;
+use App\Application\Dto\MessageVK;
 use Psr\Log\LoggerInterface;
 
 class FactoryMessageVK

@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace App\Application\UseCase;
 
-use App\Application\Exceptions\ExceptionFactoryNotFound;
+use App\Application\Dto\MessageVK;
+use App\Application\Exceptions\Factory\ExceptionFactoryNotFound;
 use App\Application\Factory\FactoryCommand;
 use App\Domain\Gateway\DataGatewayInterface;
-use App\Domain\ValueObject\VK\MessageVK;
 use App\Infrastructure\Exceptions\ExceptionAccessGateway;
 use Psr\Log\LoggerInterface;
 use Throwable;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace App\Application\Factory;
 
 use App\Application\Dto\CreateConversationDto;
-use App\Application\Exceptions\ExceptionNotFoundAdmin;
+use App\Application\Exceptions\Factory\ExceptionNotFoundAdmin;
 use App\Domain\Entity\Conversation;
 use App\Domain\Entity\ConversationDetails;
 use Doctrine\ORM\EntityManagerInterface;

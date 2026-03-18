@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
-namespace App\Domain\ValueObject\Command;
+namespace App\Application\UseCase\Command;
 
+use App\Application\UseCase\Command\Data\LooserData;
 use App\Domain\Builder\MessageBuilder;
 use App\Domain\Services\TimeService;
-use App\Domain\ValueObject\Command\Data\LooserData;
 
 class LooserCommand extends AbstractCommand
 {

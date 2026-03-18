@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace App\Application\UseCase;
 
 use App\Application\Dto\CreateProfileDto;
-use App\Application\Exceptions\ExceptionNotFoundAdmin;
 use App\Application\Factory\FactoryProfile;
 use App\Domain\Entity\Conversation;
 use App\Domain\Entity\Profile;
@@ -40,7 +39,7 @@ class SaveProfileUseCase
             }
 
             return $profile;
-        } catch (ExceptionGateway | ExceptionNotFoundAdmin $th) {
+        } catch (ExceptionGateway $th) {
             $this->logger->error('failed save profile', ['message' => $th->getMessage(), 'trace' => $th->getTrace()]);
             return null;
         }

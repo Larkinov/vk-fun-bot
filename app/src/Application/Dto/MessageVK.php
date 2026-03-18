@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
-namespace App\Domain\ValueObject\VK;
+namespace App\Application\Dto;
 
-use App\Domain\Exceptions\ExceptionNotValidCommand;
-use App\Domain\ValueObject\Command\AbstractCommand;
+use App\Application\Exceptions\Dto\ExceptionNotValidCommand;
+use App\Application\UseCase\Command\AbstractCommand;
 use Psr\Log\LoggerInterface;
 
 class MessageVK
