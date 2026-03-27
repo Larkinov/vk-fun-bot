@@ -1,0 +1,230 @@
+command:
+    looser:
+        variant_0: "🤡 Неудачник дня - {name} {lastname}"
+        variant_1: "😴 {name} {lastname} просыпается только после 10-го будильника"
+        variant_2: "🏥 {name} {lastname} проходит операцию по смене пола"
+        variant_3: "🐹 {name} {lastname} в следующей жизни будет сусликом"
+        variant_4: >-
+            😍 {name} {lastname} {gender, select,
+                female {влюблена в соседа}
+                other {влюблен в соседку}
+            }
+        variant_5: "🤢 Волосы в еде преследуют тебя - {name} {lastname}"
+        variant_6: "👵 {name} {lastname}, бабки у подъезда тебя ненавидят, просто так..."
+        variant_7: "💉 {name} {lastname} является сторонником антивакцинации"
+        variant_8: "🥴 Сегодня ты весь день говоришь невнятно - {name} {lastname}"
+        variant_9: >-
+            🧱 {name} {lastname} {gender, select,
+                female {застряла в лифте}
+                other {застрял в лифте}
+            }
+        variant_10: >-
+            🤢 {name} {lastname} {gender, select,
+                female {съела протухшую еду}
+                other {съел протухшую еду}
+            }
+        variant_11: "🤬 {name} {lastname} поругается с начальством"
+        variant_12: >-
+            🔌 {name} {lastname} {gender, select,
+                female {забыла зарядить телефон}
+                other {забыл зарядить телефон}
+            }
+        variant_13: >-
+            🦴 {name} {lastname} {gender, select,
+                female {сломала руку}
+                other {сломал руку}
+            }
+        variant_14: "😵 {name} {lastname} теперь работает без выходных"
+        variant_15: >-
+            😫 {name} {lastname} {gender, select,
+                female {забыла пароль от телефона}
+                other {забыл пароль от телефона}
+            }
+        variant_16: >-
+            💀 {name} {lastname} {gender, select,
+                female {наступила в капкан}
+                other {наступил в капкан}
+            }
+        variant_17: >-
+            👽 {name} {lastname} {gender, select,
+                female {была похищена пришельцами}
+                other {был похищен пришельцами}
+            }
+        variant_18: >-
+            🦶 {name} {lastname} {gender, select,
+                female {ударилась мизинцем о тумбочку}
+                other {ударился мизинцем о тумбочку}
+            }
+        variant_19: "{name} {lastname} целый день строит дачу у бати"
+        variant_20: >-
+            🏗️ {name} {lastname} {gender, select,
+                female {получила повестку в армию}
+                other {получил повестку в армию}
+            }
+        variant_21: >-
+            🕳️ {name} {lastname} {gender, select,
+                female {провалилась в люк}
+                other {провалился в люк}
+            }
+        variant_22: "🍻 {name} {lastname} едет в поезде с алкашами"
+        variant_23: >-
+            ❄️ {name} {lastname} {gender, select,
+                female {улетела на Чукотку}
+                other {уехал в Магадан}
+            }
+        variant_24: "{name} {lastname} не выговаривает букву Р"
+        variant_25: >-
+            📉 {name} {lastname} {gender, select,
+                female {погрязла в долгах}
+                other {погряз в долгах}
+            }
+        variant_26: "🚽 {name} {lastname} работает чистильщиком унитазов"
+        variant_27: >-
+            🌡️ {name} {lastname} {gender, select,
+                female {заболела туберкулезом}
+                other {заболел туберкулезом}
+            }
+        variant_28: >-
+            {name} {lastname} {gender, select,
+                female {🏥 проиграла почку бомжу}
+                other {🩲 проиграл свои трусы бомжу}
+            }
+        variant_29: "{name} {lastname} ходит в вонючих носках"
+        variant_30: >-
+            👃 {name} {lastname} {gender, select,
+                female {не мылась 80 дней}
+                other {не мылся 82 дня}
+            }
+        variant_31: "🍽️ {name} {lastname} жрет тараканов на завтрак"
+        variant_32: >-
+            🩲 {name} {lastname} {gender, select,
+                female {украла трусы у коллеги}
+                other {украл трусы у коллеги}
+            }
+        variant_33: >-
+            ⚡️ {name} {lastname} {gender, select,
+                female {получила удар током}
+                other {получил удар током}
+            }
+        variant_34: "🎤 {name} {lastname} ужасно поет"
+        variant_35: "😢 {name} {lastname} плачет от безысходности"
+        variant_36: "🇮🇷 {name} {lastname} переезжает жить в Иран"
+        variant_37: "🔞 {name} {lastname} гуляет голышом на улице"
+        variant_38: >-
+            {name} {lastname} {gender, select,
+                female {👩‍👧‍👧 удочерила 28 девочек}
+                other {👨‍👦‍👦 усыновил 27 мальчиков}
+            }
+        variant_39: >-
+            ⛓️ {name} {lastname} {gender, select,
+                female {попала в подвал к маньяку}
+                other {попал в подвал к маньяку}
+            }
+        variant_40: "🇦🇲 {name} {lastname} говорит только на армянском"
+        variant_41: "🇰🇷 {name} {lastname} любит корейских мальчиков"
+        variant_42: >-
+            🌲🌳 {name} {lastname} {gender, select,
+                female {заблудилась в лесу}
+                other {заблудился в лесу}
+            }
+        variant_43: "👀 {name} {lastname} подглядывает за свиньями в амбаре"
+        variant_44: >-
+            🤏 {name} {lastname} {gender, select,
+                female {отправилась щипать траву}
+                other {отправился щипать траву}
+            }
+        variant_45: "🗑️ {name} {lastname} живет на свалке"
+        variant_46: >-
+            👁️ {name} {lastname} {gender, select,
+                female {стала сектантом}
+                other {стал сектантом}
+            }
+        variant_47: "🦢 {name} {lastname} разговаривает с лебедями"
+        variant_48: "🐪 {name} {lastname} убирает веблюжий понос"
+        variant_49: "👨🏻‍💼 {name} {lastname} тайный поклонник Иосифа Кобзона"
+        variant_50: "👶 {name} {lastname} носит подгузники"
+        variant_51: >-
+            🚘 {name} {lastname} {gender, select,
+                female {потеряла управление автомобилем}
+                other {потерял управление автомобилем}
+            }
+        variant_52: >-
+            🧼 {name} {lastname} {gender, select,
+                female {пошла мыть гору посуды}
+                other {пошел мыть гору посуды}
+            }
+        variant_53: "🚩 {name} {lastname} сторонник идей Гитлера"
+        variant_54: "🤮 {name} {lastname} блюет в подъезде"
+        variant_55: >-
+            🍄 {name} {lastname} {gender, select,
+                female {подсела на грибы}
+                other {подсел на грибы}
+            }
+        variant_56: "👨‍🦰👩‍🦰 {name} {lastname} ненавидит рыжих"
+        variant_57: >-
+            ⛓️ {name} {lastname} {gender, select,
+                female {получила штраф за негров в подвале}
+                other {получил штраф за негров в подвале}
+            }
+        variant_58: "🦽 {name} {lastname} грабит инвалидов"
+        variant_59: "🐈‍💀 {name} {lastname} пишет картины мертвых котят"
+        variant_60: "🤓 {name} {lastname} душнила"
+        variant_61: "🤥 {name} {lastname} нагло врет про свой вес"
+        variant_62: "💔 {name} {lastname} пытает кассиров пятерочки"
+        variant_63: "🚕 {name} {lastname} уговаривает таксиста проехать за бутылку кефира и жвачку"
+        variant_64: >-
+            🤡 {name} {lastname} {gender, select,
+                female {стала блогером говна и треша}
+                other {стал блогером говна и треша}
+            }
+        variant_65: "📉 {name} {lastname} поднимает налоги в стране"
+        variant_66: >-
+            ⛩️🌸 {name} {lastname} {gender, select,
+                female {стала приспешником аниме}
+                other {стал приспешником аниме}
+            }
+        variant_67: "👶 {name} {lastname} плюет детям в еду"
+        variant_68: "🩲⚡️ {name} {lastname} носит трусы с пикачу"
+        variant_69: "🗺️ {name} {lastname} является сторонником плоской Земли"
+        variant_70: "❄️🟨 {name} {lastname} ест желтый снег"
+        variant_71: "🍺 {name} {lastname} ходит в клуб анонимных алкоголиков"
+        variant_72: "🧪 {name} {lastname} торчит на мефе"
+        variant_73: "🏆 {name} {lastname} чемпион Республики Бурятия по поеданию поз"
+        variant_74: "👩‍🦰🎤 {name} {lastname} тайный воздыхатель Аллы Пугачевы"
+        variant_75: "🖍️ {name} {lastname} пишет неприличные слова на заборе"
+        variant_76: "🍴 {name} {lastname} ест бузы вилкой"
+        variant_77: "🧴💊 {name} {lastname} работает продавцом БАДов"
+        variant_78: "☀️🔞 {name} {lastname} загорает голышом"
+        variant_79: >-
+            🐛 {name} {lastname} {gender, select,
+                female {приютила в себе глистов}
+                other {приютил в себе глистов}
+            }
+        variant_80: "👐 {name} {lastname} - эксбиционист"
+        variant_81: "🔔 {name} {lastname} звонит в звонок и убегает"
+        variant_82: "💰 {name} {lastname} продает почки людей"
+        variant_83: "🛁 {name} {lastname} моется в ржавой воде"
+        variant_84: "👁️ {name} {lastname} подглядывает в общественных банях"
+        variant_85: "💭 {name} {lastname} думает, что в жизни надо что-то менять..."
+        variant_86: "🧩 {name} {lastname} сдает тест на шизофрению"
+        variant_87: "🧐💩 {name} {lastname} разбирается в сортах говна"
+        variant_88: "🩲 {name} {lastname} сушит трусы на батарее"
+        variant_89: "🍄 {name} {lastname} спит с грибником в землянке"
+        variant_90: "✊🍷 {name} {lastname} отстаивает права алкоголиков"
+        variant_91: "🧮 {name} {lastname} борется за каждую копейку"
+        variant_92: "☕️ {name} {lastname} сюрпает, когда пьет горячий чай"
+        variant_93: "📚 {name} {lastname} обожает книги Дарьи Донцовой"
+        variant_94: "🪐✨ {name} {lastname} являяется астрологом в пятом колене"
+        variant_95: "🦂 {name} {lastname} утверждает, что Скорпионы отвратительные люди"
+        variant_96: "🍝👾 {name} {lastname} по ночам молится Макаронному Монстру"
+        variant_97: "🎧🏦 {name} {lastname} работает мошенником в колл-центре"
+        variant_98: >-
+            🌲 {name} {lastname} {gender, select,
+                female {ушла в лес и стала шаманом}
+                other {ушел в лес и стал шаманом}
+            }
+        variant_99: "🦌🤰 {name} {lastname} ухаживает за беременными лосями"
+        variant_100: "🎗️ {name} {lastname} болеет СПИДом"
+        variant_101: "🚬👶 {name} {lastname} учит детей матерится и курить травку"
+        variant_102: "🧔👑 {name} {lastname} считает, что есть люди и женщины"
+        variant_103: "📢🤬 {name} {lastname} орет без причины на людей"
