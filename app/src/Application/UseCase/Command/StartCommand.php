@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Domain\Builder\MessageBuilder;
@@ -19,6 +21,11 @@ class StartCommand extends AbstractCommand
 
         $this->logger->info('repeat init command', $this->context);
         $this->dataGateway->sendMessage($this->getMessage(['started' => 'repeat']), $this->peerId);
+    }
+
+    public static function getRussianAlias(): string
+    {
+        return 'старт';
     }
 
     protected function getMessage(array $options = []): string

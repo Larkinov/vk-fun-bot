@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Application\UseCase\Command\Data\LooserData;
@@ -26,6 +28,11 @@ class StatisticCommand extends AbstractCommand
     public static function isNewMonth(LooserData $looserData): bool
     {
         return $looserData->getLastMonthActive() !== (int)date('n');
+    }
+
+    public static function getRussianAlias(): string
+    {
+        return 'статистика';
     }
 
     public function setType(string $type)
@@ -101,7 +108,7 @@ class StatisticCommand extends AbstractCommand
 
         if (isset($statisticLooser[$type]))
             $statisticLooser = $statisticLooser[$type];
-        
+
         $idLoosers = $this->conversation->getActiveProfileIds();
 
         $profilesData = $this->entityManager->getRepository(Profile::class)->findBy(['userId' => $idLoosers]);

@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\Dto;
 
 use App\Application\Exceptions\Dto\ExceptionNotValidCommand;
@@ -92,7 +94,7 @@ class MessageVK
     private function calculateCommand(?string $type): void
     {
         if (!empty($this->text)) {
-            $pattern = '/^\/[a-z]+$/';
+            $pattern = '/^\/[a-zA-Zа-яА-ЯёЁ]+$/u';
 
             if (strlen($this->text) > AbstractCommand::MAX_LENGTH_COMMAND) {
                 $this->logger->info('skip message', ['reason' => 'text too long length']);

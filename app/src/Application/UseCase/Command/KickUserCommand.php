@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Domain\Builder\MessageBuilder;
@@ -28,6 +30,11 @@ class KickUserCommand extends AbstractCommand
         }
 
         $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
+    }
+
+    public static function getRussianAlias(): string
+    {
+        return 'kickuser';
     }
 
     protected function getMessage(array $options = []): string

@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Application\UseCase\Command\Data\LooserData;
@@ -27,6 +29,11 @@ class LooserCommand extends AbstractCommand
         if ($this->remainingTime <= 0) {
             $this->checkStatistic();
         }
+    }
+
+    public static function getRussianAlias(): string
+    {
+        return 'неудачник';
     }
 
     protected function getMessage(array $options = []): string

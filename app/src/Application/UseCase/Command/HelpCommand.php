@@ -15,6 +15,11 @@ class HelpCommand extends AbstractCommand
         $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
     }
 
+    public static function getRussianAlias(): string
+    {
+        return 'помощь';
+    }
+
     protected function getMessage(array $options = []): string
     {
         return $this->messageBuilder

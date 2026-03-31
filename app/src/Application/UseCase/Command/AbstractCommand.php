@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Application\Dto\MessageVK;
@@ -65,6 +67,7 @@ abstract class AbstractCommand
     }
 
     abstract public function run(): void;
+    abstract public static function getRussianAlias(): string;
     abstract protected function getMessage(array $options = []): string;
 
     protected function getProfile(int $id): ?Profile

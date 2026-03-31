@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Application\UseCase\Command;
 
 use App\Application\Dto\CreateProfileDto;
@@ -43,6 +45,11 @@ class NewUserCommand extends AbstractCommand
         }
 
         $this->dataGateway->sendMessage($this->getMessage(), $this->peerId);
+    }
+
+    public static function getRussianAlias(): string
+    {
+        return 'newuser';
     }
 
     protected function getMessage(array $options = []): string
