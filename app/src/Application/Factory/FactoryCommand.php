@@ -45,11 +45,10 @@ class FactoryCommand
         } else
             $classname = "App\\Application\\UseCase\\Command\\$command" . "Command";
 
-        if (in_array(strtolower($command), $this->getForbiddenCommand())) {
+        if ($message->getText() !== null && in_array(strtolower($command), $this->getForbiddenCommand())) {
             $this->logger->info('skip command', ['reason' => 'is a forbidden command', 'command' => $command]);
             throw new ExceptionFactoryNotFound('command', $classname);
         }
-
 
 
         if (class_exists($classname))

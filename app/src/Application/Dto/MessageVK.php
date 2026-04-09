@@ -17,13 +17,12 @@ class MessageVK
     private const COMMAND_KICK_USER = 'KickUser';
 
     private string $command = 'unknown';
-    private bool $isCorrectCommand;
 
     private int $id;
     private int $peerId;
     private int $fromId;
-    private ?string $text;
-    private ?int $memberId;
+    private ?string $text = null;
+    private ?int $memberId = null;
     private int $date;
     private int $conversationMessageId;
 
@@ -32,16 +31,26 @@ class MessageVK
         $this->id = $object['message']->id;
         $this->peerId = $object['message']->peer_id;
         $this->fromId = $object['message']->from_id;
-        $this->text = $object['message']->text ?? null;
-        $this->memberId = $object['message']->action->member_id ?? null;
+        
+        if (!empty($object['message']->text))
+            $this->text = $object['message']->text;
+
+        if (!empty($object['message']->action->type))
+           $type = $object['message']->action->type;
+        else
+            $type = null;
+
+        if (!empty($object['message']->action->member_id))
+            $this->memberId = $object['message']->action->member_id;
+
         $this->date = $object['message']->date;
         $this->conversationMessageId = $object['message']->conversation_message_id;
 
-        $this->calculateCommand($object['message']->action->type ?? null);
+        $this->calculateCommand($type);
 
         $this->logger->info('create message VK', [
             'id' => $this->id,
-            'type' => $object['message']->action->type ?? null,
+            'type' => $type,
             'peer_id' => $this->peerId,
             'command' => $this->command,
             'from_id' => $this->fromId,
@@ -86,11 +95,6 @@ class MessageVK
         return $this->text;
     }
 
-    public function isCorrectCommand(): bool
-    {
-        return $this->isCorrectCommand;
-    }
-
     private function calculateCommand(?string $type): void
     {
         if (!empty($this->text)) {
@@ -106,20 +110,16 @@ class MessageVK
                 throw new ExceptionNotValidCommand;
             }
 
-
-            $this->isCorrectCommand = true;
-            $this->command = ucfirst(substr($this->text, 1));
-
+            $this->command = ucfirst(strtolower(substr($this->text, 1)));
             return;
         }
 
         if ($type === self::TYPE_VALUE_NEW_USER) {
-            $this->isCorrectCommand = true;
             $this->command = self::COMMAND_NEW_USER;
             return;
         }
+
         if ($type === self::TYPE_VALUE_KICK_USER) {
-            $this->isCorrectCommand = true;
             $this->command = self::COMMAND_KICK_USER;
             return;
         }
